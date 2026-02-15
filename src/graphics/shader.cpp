@@ -241,3 +241,9 @@ void Shader::setUniformArrayVec2(const std::string& name, const float** arr, uin
         glUniform2fv(getUniformLocation(name + "[" + std::to_string(i) + "]"), 1, arr[i]);
     }
 }
+Shader::~Shader(){
+    if (valid) {
+        glDeleteProgram(_id);
+    }
+    valid = false;
+}
