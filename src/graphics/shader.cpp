@@ -116,8 +116,6 @@ bool Shader::compileShader(Shader *dst, const std::string &vertexShader, const s
             return false;
         }
         dst->_id = programId;
-//        dst->_vShaderCode = vertexShader;
-//        dst->_fShaderCode = fragmentShader;
 
     }
     dst->valid = bool(success);
