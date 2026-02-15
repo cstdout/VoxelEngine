@@ -109,3 +109,7 @@ uint32_t Image::height() const
 {
     return _height;
 }
+uint32_t Image::channels() const
+{
+    return _channels;
+}
