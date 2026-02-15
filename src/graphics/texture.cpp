@@ -90,3 +90,67 @@ int32_t Texture::channels() const
 {
     return _channels;
 }
+bool Texture::loadTexture(const Image* srcImage,
+                          Texture* dst,
+                          GLint minFilter,
+                          GLint maxFilter,
+                          GLint wrapS,
+                          GLint wrapT)
+{
+    if(srcImage == nullptr)
+    {
+        return false;
+    }
+
+    GLuint id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+
+    GLint internalFormat = GL_RGB8;
+    GLenum format = GL_RGB;
+
+    if(srcImage->channels() == 4)
+    {
+        internalFormat = GL_RGBA;
+        format = GL_RGBA;
+    }
+
+
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 internalFormat,
+                 srcImage->width(),
+                 srcImage->height(),
+                 0,
+                 format,
+                 GL_UNSIGNED_BYTE,
+                 srcImage->bytes);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    dst->_id = id;
+    dst->_width = srcImage->width();
+    dst->_height = srcImage->height();
+    dst->_channels = srcImage->channels();
+    return true;
+
+}
+bool Texture::load()
+{
+    if(_image == nullptr)
+    {
+        return false;
+    }
+    return loadTexture(_image,
+                       this,
+                       _config.minFilter,
+                       _config.maxFilter,
+                       _config.wrapS,
+                       _config.wrapT);
+}
