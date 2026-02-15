@@ -157,3 +157,36 @@ uint32_t Image::index(uint32_t x, uint32_t y, uint32_t stride) const
     }
     return y * stride + x * _channels;
 }
+bool Image::addImage(const Image &other, uint32_t x, uint32_t y)
+{
+
+    uint32_t currentImageSize = size(),
+             otherImageSize = other.size(),
+
+             currentImageRowStride = _width * _channels,
+             otherImageRowStride = other.width() * other.channels(),
+
+             currentImageIndex = index(x, y, currentImageRowStride),//(y * currentImageRowStride) + x * _channels,
+             otherImageIndex = 0;
+    if(_channels != other.channels())
+    {
+        return false;
+    }
+    if(currentImageIndex + otherImageSize > currentImageSize)
+    {
+        return false;
+    }
+    while(otherImageIndex < otherImageSize && currentImageIndex < currentImageSize)
+    {
+        bytes[currentImageIndex] = other.bytes[otherImageIndex];
+        if(otherImageIndex > 0 && !(otherImageIndex % otherImageRowStride))
+        {
+            ++y;
+            currentImageIndex = index(x, y, currentImageRowStride);
+        }
+
+        ++currentImageIndex;
+        ++otherImageIndex;
+    }
+    return true;
+}
