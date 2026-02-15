@@ -28,3 +28,10 @@ Image::Image(uint32_t width, uint32_t height, uint32_t channels)
     bytes = new uint8_t[s];
     std::fill_n(bytes, s, 0);
 }
+Image::~Image()
+{
+    if(bytes != nullptr)
+    {
+        stbi_image_free(bytes);
+    }
+}
