@@ -229,3 +229,12 @@ uint32_t Texture::id() const
 {
     return _id;
 }
+Texture::~Texture()
+{
+    detachFramebuffer();
+    if(_id > 0)
+    {
+        glDeleteTextures(1, &_id);
+    }
+
+}
