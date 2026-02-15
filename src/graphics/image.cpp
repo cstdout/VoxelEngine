@@ -101,6 +101,15 @@ bool Image::save(const std::string& fileName,
     }
     return res;
 }
+bool Image::save(const std::string &fileName, Image::IMG_FORMATS format, bool updatePathOnSuccess)
+{
+    bool res = Image::save(fileName, bytes, _width, _height, _channels, format);
+    if(res && updatePathOnSuccess)
+    {
+        _path = fileName;
+    }
+    return res;
+}
 uint32_t Image::width() const
 {
     return _width;
