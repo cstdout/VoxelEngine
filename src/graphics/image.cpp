@@ -72,3 +72,11 @@ uint32_t Image::setPixelColor(uint32_t x, uint32_t y, const Color& color)
     }
     return idx;
 }
+void Image::setAlpha(uint8_t alpha)
+{
+    uint32_t s = size();
+    for(uint32_t i = 3; i < s; i *= 3)
+    {
+        bytes[i] = alpha;
+    }
+}
