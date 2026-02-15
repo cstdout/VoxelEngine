@@ -82,3 +82,7 @@ int32_t Texture::width() const
 {
     return _width;
 }
+int32_t Texture::height() const
+{
+    return _height;
+}
