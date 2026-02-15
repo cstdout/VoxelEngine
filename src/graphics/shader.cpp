@@ -180,6 +180,14 @@ int32_t Shader::getAttribLocation(const std::string& name) const
 {
     return glGetAttribLocation(_id, name.c_str());
 }
+void Shader::setUniform4f(const std::string& name, float v0, float v1, float v2, float v3) const
+{
+    glUniform4f(getUniformLocation(name), v0, v1, v2, v3);
+}
+void Shader::setUniform1i(const std::string &name, uint32_t v) const
+{
+    glUniform1i(getUniformLocation(name), v);
+}
 void Shader::setUniformMatrix4fv(const std::string& name, const GLfloat* value, GLsizei count, GLboolean transpose) const
 {
     glUniformMatrix4fv(getUniformLocation(name), count, transpose, value);
