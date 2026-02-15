@@ -35,3 +35,7 @@ Image::~Image()
         stbi_image_free(bytes);
     }
 }
+uint32_t Image::size() const
+{
+    return _size;
+}
