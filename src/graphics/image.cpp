@@ -39,3 +39,36 @@ uint32_t Image::size() const
 {
     return _size;
 }
+uint32_t Image::setPixelColor(uint32_t x, uint32_t y, uint8_t color)
+{
+    uint32_t idx = index(x, y);
+    if(idx <= (_size - _channels))
+    {
+        bytes[idx] = color;
+        bytes[idx + 1] = color;
+        bytes[idx + 2] = color;
+    }
+    return idx;
+}
+uint32_t Image::setPixelColor(uint32_t x, uint32_t y, uint8_t r, uint8_t g, uint8_t b)
+{
+    uint32_t idx = index(x, y);
+    if(idx <= (_size - _channels))
+    {
+        bytes[idx] = r;
+        bytes[idx + 1] = g;
+        bytes[idx + 2] = b;
+    }
+    return idx;
+}
+uint32_t Image::setPixelColor(uint32_t x, uint32_t y, const Color& color)
+{
+    uint32_t idx = index(x, y);
+    if(idx <= (_size - _channels))
+    {
+        bytes[idx] = color.r;
+        bytes[idx + 1] = color.g;
+        bytes[idx + 2] = color.b;
+    }
+    return idx;
+}
