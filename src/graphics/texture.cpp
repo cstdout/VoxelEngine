@@ -78,3 +78,7 @@ uint32_t Texture::getActiveSlot() const
 {
     return _activeSlot;
 }
+int32_t Texture::width() const
+{
+    return _width;
+}
