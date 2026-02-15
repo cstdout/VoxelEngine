@@ -113,3 +113,8 @@ uint32_t Image::channels() const
 {
     return _channels;
 }
+std::string& Image::path() const
+{
+    std::string* s = new std::string(_path);
+    return *s;
+}
