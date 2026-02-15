@@ -20,3 +20,15 @@ Texture::Texture(const Image* image, const TextureConfig& config)
     _image = image;
     _config = config;
 }
+void Texture::copyTexture(const Texture &other)
+{
+    _id = other._id;
+    _width = other._width;
+    _height = other._height;
+    _channels = other._channels;
+    _activeSlot = other._activeSlot;
+}
+void Texture::operator=(const Texture &other)
+{
+    copyTexture(other);
+}
