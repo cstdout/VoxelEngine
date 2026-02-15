@@ -184,3 +184,13 @@ void Texture::create(int32_t width, int32_t height, int32_t channels)
     glBindTexture(GL_TEXTURE_2D, 0);
 
 }
+void Texture::setTextureMinMaxFilters(GLint minFilter, GLint maxFilter)
+{
+    glBindTexture(GL_TEXTURE_2D, _id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, maxFilter);
+
+    _config.minFilter = minFilter;
+    _config.maxFilter = maxFilter;
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
