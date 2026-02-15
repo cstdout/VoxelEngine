@@ -105,3 +105,7 @@ uint32_t Image::width() const
 {
     return _width;
 }
+uint32_t Image::height() const
+{
+    return _height;
+}
