@@ -142,3 +142,12 @@ Shader* Shader::compileFromFiles(const std::string &vertexFile, const std::strin
     }
     return nullptr;
 }
+void Shader::use(){
+    if (valid) {
+        glUseProgram(_id);
+    }
+    else
+    {
+        std::cerr << "ERROR::SHADER::IS NOT VALID" << std::endl;
+    }
+}
