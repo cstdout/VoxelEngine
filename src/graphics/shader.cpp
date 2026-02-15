@@ -127,3 +127,18 @@ bool Shader::compileShader(Shader *dst, const std::string &vertexShader, const s
 
     return true;
 }
+Shader* Shader::compileFromFiles(const std::string &vertexFile, const std::string &fragmentFile)
+{
+
+    Shader* shader = new Shader;
+    bool res = shader->loadCodeFromFiles(vertexFile, fragmentFile);
+    if (res)
+    {
+        res = shader->compile();
+    }
+    if(res)
+    {
+        return shader;
+    }
+    return nullptr;
+}
