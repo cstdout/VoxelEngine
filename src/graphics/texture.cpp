@@ -210,3 +210,14 @@ void Texture::attachFramebuffer(uint32_t fboId)
         std::cerr << "Texture::attachFramebuffer() framebuffer or texture was not created." << std::endl;
     }
 }
+void Texture::detachFramebuffer()
+{
+    if(_fboId > 0)
+    {
+        glBindFramebuffer(GL_FRAMEBUFFER, _fboId);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, 0, 0);
+        _fboId = 0;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+}
