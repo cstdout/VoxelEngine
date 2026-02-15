@@ -151,3 +151,7 @@ void Shader::use(){
         std::cerr << "ERROR::SHADER::IS NOT VALID" << std::endl;
     }
 }
+bool Shader::isValid()
+{
+    return valid;
+}
