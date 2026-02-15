@@ -74,3 +74,7 @@ Texture* Texture::fromPath(const char* filename, GLint minFilter, GLint maxFilte
     delete img;
     return t;
 }
+uint32_t Texture::getActiveSlot() const
+{
+    return _activeSlot;
+}
