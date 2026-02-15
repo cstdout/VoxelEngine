@@ -101,3 +101,7 @@ bool Image::save(const std::string& fileName,
     }
     return res;
 }
+uint32_t Image::width() const
+{
+    return _width;
+}
