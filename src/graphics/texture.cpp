@@ -42,3 +42,17 @@ void Texture::unbind() const
 {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+Texture* Texture::fromImage(const Image* const image,
+                            GLint minFilter,
+                            GLint maxFilter,
+                            GLint wrapS,
+                            GLint wrapT)
+{
+    Texture* texture = new Texture();
+    if(!loadTexture(image, texture, minFilter, maxFilter, wrapS, wrapT))
+    {
+        delete texture;
+        return nullptr;
+    }
+    return texture;
+}
