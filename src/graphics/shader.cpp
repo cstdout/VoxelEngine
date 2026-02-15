@@ -159,3 +159,13 @@ uint32_t Shader::id() const
 {
     return _id;
 }
+int32_t Shader::getUniformCount() const
+{
+    int32_t count = -1;
+    if(valid)
+    {
+        glGetProgramiv(_id, GL_ACTIVE_UNIFORMS, &count);
+    }
+
+    return count;
+}
