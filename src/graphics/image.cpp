@@ -80,3 +80,24 @@ void Image::setAlpha(uint8_t alpha)
         bytes[i] = alpha;
     }
 }
+bool Image::save(const std::string& fileName,
+                 uint8_t* bytes,
+                 uint32_t width,
+                 uint32_t height,
+                 uint32_t channels,
+                 Image::IMG_FORMATS format)
+{
+    bool res = false;
+    switch(format)
+    {
+        case Image::IMG_FORMATS::PNG:
+            res = stbi_write_png(fileName.c_str(),
+                                 int(width),
+                                 int(height),
+                                 int(channels),
+                                 bytes,
+                                 int(width * channels));
+        break;
+    }
+    return res;
+}
