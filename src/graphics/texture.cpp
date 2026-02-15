@@ -56,3 +56,21 @@ Texture* Texture::fromImage(const Image* const image,
     }
     return texture;
 }
+Texture* Texture::fromPath(const std::string& filename, GLint minFilter, GLint maxFilter, GLint wrapS, GLint wrapT)
+{
+    return fromPath(filename.c_str(), minFilter, maxFilter, wrapS, wrapT);
+}
+Texture* Texture::fromPath(const char* filename, GLint minFilter, GLint maxFilter, GLint wrapS, GLint wrapT)
+{
+    Image* img = Image::fromPath(filename);
+
+    if (!img)
+    {
+        std::cout << "Failed to load texture" << std::endl;
+        return nullptr;
+    }
+    Texture* t = fromImage(img, minFilter, maxFilter, wrapS, wrapT);
+//    stbi_image_free(data);
+    delete img;
+    return t;
+}
