@@ -149,3 +149,11 @@ Image* Image::fromPath(const std::string& path, bool flipVerticallyOnLoad)
     image->bytes = data;
     return image;
 }
+uint32_t Image::index(uint32_t x, uint32_t y, uint32_t stride) const
+{
+    if(!stride)
+    {
+        return _channels * (y * _width + x);
+    }
+    return y * stride + x * _channels;
+}
