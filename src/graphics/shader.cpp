@@ -178,3 +178,7 @@ int32_t Shader::getUniformLocation(const std::string& name) const
     }
     return location;
 }
+int32_t Shader::getAttribLocation(const std::string& name) const
+{
+    return glGetAttribLocation(_id, name.c_str());
+}
