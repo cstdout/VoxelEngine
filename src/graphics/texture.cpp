@@ -221,3 +221,7 @@ void Texture::detachFramebuffer()
     }
 
 }
+uint32_t Texture::attachedFbo() const
+{
+    return _fboId;
+}
