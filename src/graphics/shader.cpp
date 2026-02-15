@@ -182,3 +182,64 @@ int32_t Shader::getAttribLocation(const std::string& name) const
 {
     return glGetAttribLocation(_id, name.c_str());
 }
+void Shader::setUniformMatrix4fv(const std::string& name, const GLfloat* value, GLsizei count, GLboolean transpose) const
+{
+    glUniformMatrix4fv(getUniformLocation(name), count, transpose, value);
+}
+void Shader::setBool(const std::string &name, bool value) const
+{
+    glUniform1i(getUniformLocation(name), (int)value);
+}
+void Shader::setUniform1f(const std::string &name, float value) const
+{
+    glUniform1f(getUniformLocation(name), value);
+}
+void Shader::setUniform2fv(const std::string &name, const GLfloat* value) const
+{
+    glUniform2fv(getUniformLocation(name), 1, value);
+}
+void Shader::setUniform2f(const std::string &name, float x, float y) const
+{
+    glUniform2f(getUniformLocation(name), x, y);
+}
+void Shader::setUniform3fv(const std::string &name, const GLfloat* value) const
+{
+    glUniform3fv(getUniformLocation(name), 1, value);
+}
+void Shader::setUniform3f(const std::string &name, float x, float y, float z) const
+{
+    glUniform3f(getUniformLocation(name), x, y, z);
+}
+void Shader::setUniform4fv(const std::string &name, const GLfloat* value) const
+{
+    glUniform4fv(getUniformLocation(name), 1, value);
+}
+void Shader::setUniformMatrix2fv(const std::string &name, const GLfloat* mat) const
+{
+    glUniformMatrix2fv(getUniformLocation(name), 1, GL_FALSE, mat);
+}
+void Shader::setUniformMatrix3fv(const std::string &name, const GLfloat* mat) const
+{
+    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, mat);
+}
+void Shader::setUniformArrayFloat(const std::string& name, const float* arr, uint32_t size) const
+{
+    for(uint32_t i = 0; i < size; ++i)
+    {
+        glUniform1f(getUniformLocation(name + "[" + std::to_string(i) + "]"), arr[i]);
+    }
+}
+void Shader::setUniformArrayVec4(const std::string& name, const float** arr, uint32_t size) const
+{
+    for(uint32_t i = 0; i < size; ++i)
+    {
+        glUniform4fv(getUniformLocation(name + "[" + std::to_string(i) + "]"), 1, arr[i]);
+    }
+}
+void Shader::setUniformArrayVec2(const std::string& name, const float** arr, uint32_t size) const
+{
+    for(uint32_t i = 0; i < size; ++i)
+    {
+        glUniform2fv(getUniformLocation(name + "[" + std::to_string(i) + "]"), 1, arr[i]);
+    }
+}
