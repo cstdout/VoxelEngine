@@ -40,3 +40,25 @@ bool Shader::loadCodeFromFiles(const std::string &vertexFile, const std::string 
     }
     return true;
 }
+Shader::Shader(const std::string& vertexShader, const std::string& fragmentShader){
+
+    bool filesExist;
+    try {
+        filesExist = std::filesystem::exists(vertexShader) && std::filesystem::exists(fragmentShader);
+
+    } catch (std::exception& e) {
+        filesExist = false;
+    }
+    if(filesExist)
+    {
+        loadCodeFromFiles(vertexShader, fragmentShader);
+    }
+    else
+    {
+        _vShaderCode.clear();
+        _fShaderCode.clear();
+
+        _vShaderCode = vertexShader;
+        _fShaderCode = fragmentShader;
+    }
+}
