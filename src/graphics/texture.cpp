@@ -154,3 +154,33 @@ bool Texture::load()
                        _config.wrapS,
                        _config.wrapT);
 }
+void Texture::create(int32_t width, int32_t height, int32_t channels)
+{
+
+    GLuint id;
+    glGenTextures(1, &id);
+    glBindTexture(GL_TEXTURE_2D, id);
+
+    GLint internalFormat = GL_RGB8;
+    GLenum format = GL_RGB;
+
+    _channels = channels;
+    if(_channels < 3)
+    {
+        _channels = 3;
+    }
+    if(_channels == 4)
+    {
+        internalFormat = GL_RGBA;
+        format = GL_RGBA;
+    }
+
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, NULL);
+
+    _id = id;
+    _width = width;
+    _height = height;
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+}
