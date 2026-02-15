@@ -118,3 +118,25 @@ std::string& Image::path() const
     std::string* s = new std::string(_path);
     return *s;
 }
+Image* Image::fromPath(const std::string& path, bool flipVerticallyOnLoad)
+{
+    int32_t width, height, channels;
+    if(flipVerticallyOnLoad)
+    {
+        stbi_set_flip_vertically_on_load(1);
+    }
+
+    uint8_t* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    if (!data)
+    {
+        std::cout << "Failed to load image" << std::endl;
+        return nullptr;
+    }
+    Image* image = new Image();
+    image->_width = uint32_t(width);
+    image->_height = uint32_t(height);
+    image->_channels = uint32_t(channels);
+    image->_path = path;
+    image->bytes = data;
+    return image;
+}
