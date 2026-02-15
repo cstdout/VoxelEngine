@@ -6,3 +6,7 @@
 #include <sstream>
 #include <filesystem>
 #include <exception>
+
+Shader::Shader()
+{
+}
