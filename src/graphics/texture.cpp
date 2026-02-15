@@ -225,3 +225,7 @@ uint32_t Texture::attachedFbo() const
 {
     return _fboId;
 }
+uint32_t Texture::id() const
+{
+    return _id;
+}
