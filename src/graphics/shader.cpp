@@ -169,3 +169,12 @@ int32_t Shader::getUniformCount() const
 
     return count;
 }
+int32_t Shader::getUniformLocation(const std::string& name) const
+{
+    int32_t location = glGetUniformLocation(_id, name.c_str());
+    if (location < 0)
+    {
+        std::cerr << "ERROR::SHADER::CANNOT FIND UNIFORM LOCATION OF " << name.c_str() << std::endl;
+    }
+    return location;
+}
