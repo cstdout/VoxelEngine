@@ -194,3 +194,19 @@ void Texture::setTextureMinMaxFilters(GLint minFilter, GLint maxFilter)
     _config.maxFilter = maxFilter;
     glBindTexture(GL_TEXTURE_2D, 0);
 }
+void Texture::attachFramebuffer(uint32_t fboId)
+{
+    if(fboId > 0 && _id > 0)
+    {
+        glBindTexture(GL_TEXTURE_2D, _id);
+        glBindFramebuffer(GL_FRAMEBUFFER, fboId);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, _id, 0);
+        _fboId = fboId;
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+    else
+    {
+        std::cerr << "Texture::attachFramebuffer() framebuffer or texture was not created." << std::endl;
+    }
+}
