@@ -86,3 +86,7 @@ int32_t Texture::height() const
 {
     return _height;
 }
+int32_t Texture::channels() const
+{
+    return _channels;
+}
