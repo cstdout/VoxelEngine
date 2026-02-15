@@ -38,3 +38,7 @@ void Texture::bind(uint32_t slot)
     glBindTexture(GL_TEXTURE_2D, _id);
     _activeSlot = slot;
 }
+void Texture::unbind() const
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
