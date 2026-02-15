@@ -32,3 +32,9 @@ void Texture::operator=(const Texture &other)
 {
     copyTexture(other);
 }
+void Texture::bind(uint32_t slot)
+{
+    glActiveTexture(GL_TEXTURE0 + slot);
+    glBindTexture(GL_TEXTURE_2D, _id);
+    _activeSlot = slot;
+}
