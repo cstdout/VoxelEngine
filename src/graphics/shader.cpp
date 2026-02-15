@@ -155,3 +155,7 @@ bool Shader::isValid()
 {
     return valid;
 }
+uint32_t Shader::id() const
+{
+    return _id;
+}
