@@ -25,3 +25,16 @@ int32_t Window::initialize(int32_t width, int32_t height, const char* title)
 
     return 0;
 }
+int32_t Window::width() const
+{
+    return _width;
+}
+int32_t Window::height() const
+{
+    return _height;
+}
+std::string& Window::title() const
+{
+    std::string* t = new std::string(_title);
+    return *t;
+}
