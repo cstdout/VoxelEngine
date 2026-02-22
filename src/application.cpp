@@ -10,3 +10,7 @@ Application::Application()
         Application::glfwInitialized = true;
     }
 }
+bool Application::isGlfwInitialized()
+{
+    return Application::glfwInitialized;
+}
