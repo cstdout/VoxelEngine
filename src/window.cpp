@@ -86,3 +86,7 @@ bool Window::isCreated() const
 {
     return (_window != nullptr);
 }
+void Window::setCursorDisabled(bool v)
+{
+    _cursorDisabled = v;
+}
