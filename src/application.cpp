@@ -18,3 +18,7 @@ void Application::terminate()
 {
     glfwTerminate();
 }
+void Application::setWindow(Window *w)
+{
+    window = w;
+}
