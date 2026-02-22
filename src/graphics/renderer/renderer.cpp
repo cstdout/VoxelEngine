@@ -40,3 +40,8 @@ bool Renderer::isInitialized() const
 void Renderer::onDraw(float delta, int32_t w, int32_t h)
 {
 }
+void Renderer::init()
+{
+    VAO.create();
+    _initialized = true;
+}
