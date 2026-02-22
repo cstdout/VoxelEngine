@@ -33,3 +33,7 @@ void Renderer::render(float delta, int32_t w, int32_t h)
     FBO.unbind();
     glBindVertexArray(0);
 }
+bool Renderer::isInitialized() const
+{
+    return _initialized;
+}
