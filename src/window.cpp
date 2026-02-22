@@ -66,3 +66,7 @@ bool Window::isOpened() const
 {
     return opened;
 }
+bool Window::isShouldClose() const
+{
+    return glfwWindowShouldClose(_window);
+}
