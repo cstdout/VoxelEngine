@@ -60,3 +60,7 @@ void Renderer::initFramebufferOutputTexture(int32_t texWidth, int32_t texHeight)
     }
 
 }
+void Renderer::setOffScreenRendering(bool mode)
+{
+    _offScreenRenderingMode = mode;
+}
