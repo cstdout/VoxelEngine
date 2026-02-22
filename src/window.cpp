@@ -74,3 +74,7 @@ void Window::close()
 {
     glfwSetWindowShouldClose(_window, true);
 }
+void Window::makeContextCurrent()
+{
+    glfwMakeContextCurrent(_window);
+}
