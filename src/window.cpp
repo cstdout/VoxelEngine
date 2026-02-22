@@ -70,3 +70,7 @@ bool Window::isShouldClose() const
 {
     return glfwWindowShouldClose(_window);
 }
+void Window::close()
+{
+    glfwSetWindowShouldClose(_window, true);
+}
