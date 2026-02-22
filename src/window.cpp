@@ -90,3 +90,7 @@ void Window::setCursorDisabled(bool v)
 {
     _cursorDisabled = v;
 }
+bool Window::isCursorDisabled() const
+{
+    return _cursorDisabled;
+}
