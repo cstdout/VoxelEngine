@@ -64,3 +64,7 @@ void Renderer::setOffScreenRendering(bool mode)
 {
     _offScreenRenderingMode = mode;
 }
+bool Renderer::isOffScreenRenderingModeOn() const
+{
+    return _offScreenRenderingMode;
+}
