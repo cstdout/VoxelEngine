@@ -20,3 +20,16 @@ bool Renderer::viewportSizeValid() const
 Renderer::~Renderer()
 {
 }
+void Renderer::render(float delta, int32_t w, int32_t h)
+{
+    glBindVertexArray(VAO.id);
+    if(_offScreenRenderingMode)
+    {
+        FBO.bind();
+        glClearColor(0,0,0,1);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+    onDraw(delta, w, h);
+    FBO.unbind();
+    glBindVertexArray(0);
+}
