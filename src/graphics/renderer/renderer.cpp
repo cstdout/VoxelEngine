@@ -45,3 +45,18 @@ void Renderer::init()
     VAO.create();
     _initialized = true;
 }
+void Renderer::initFramebufferOutputTexture(int32_t texWidth, int32_t texHeight)
+{
+    if(FBO.id > 0)
+    {
+        framebufferOutput.create(texWidth, texHeight);
+        framebufferOutput.setTextureMinMaxFilters(GL_LINEAR, GL_LINEAR);
+        framebufferOutput.attachFramebuffer(FBO.id);
+
+    }
+    else
+    {
+        std::cerr << "Renderer::initFramebufferOutputTexture FBO was not created" << std::endl;
+    }
+
+}
