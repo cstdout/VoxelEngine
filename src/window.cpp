@@ -62,3 +62,7 @@ int32_t Window::create()
     opened = true;
     return 0;
 }
+bool Window::isOpened() const
+{
+    return opened;
+}
