@@ -38,3 +38,27 @@ std::string& Window::title() const
     std::string* t = new std::string(_title);
     return *t;
 }
+int32_t Window::create()
+{
+    _window = glfwCreateWindow(_width, _height, _title.c_str(), nullptr, nullptr);
+    if (_window == nullptr)
+    {
+        std::cerr << "Failed to create GLFW Window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(_window);
+
+    glewExperimental = GL_TRUE;
+    if (glewInit() != GLEW_OK)
+    {
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return -1;
+    }
+    glViewport(0, 0, _width, _height);
+
+    //TODO: set event callbacks
+
+    opened = true;
+    return 0;
+}
