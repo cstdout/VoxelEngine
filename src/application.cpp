@@ -22,3 +22,7 @@ void Application::setWindow(Window *w)
 {
     window = w;
 }
+void Application::setRenderer(Renderer *renderer)
+{
+    _renderer = renderer;
+}
