@@ -37,3 +37,6 @@ bool Renderer::isInitialized() const
 {
     return _initialized;
 }
+void Renderer::onDraw(float delta, int32_t w, int32_t h)
+{
+}
