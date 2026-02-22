@@ -82,3 +82,7 @@ void Window::swapBuffers()
 {
     glfwSwapBuffers(_window);
 }
+bool Window::isCreated() const
+{
+    return (_window != nullptr);
+}
