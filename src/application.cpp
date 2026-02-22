@@ -14,3 +14,7 @@ bool Application::isGlfwInitialized()
 {
     return Application::glfwInitialized;
 }
+void Application::terminate()
+{
+    glfwTerminate();
+}
