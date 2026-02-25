@@ -106,3 +106,7 @@ void MeshRenderer::init()
         _initialized = true;
     }
 }
+void MeshRenderer::linkUniforms()
+{
+    _shader->setUniformMatrix4fv("model", _model.valuePtr());
+}
