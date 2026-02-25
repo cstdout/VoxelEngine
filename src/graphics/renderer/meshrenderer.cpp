@@ -69,3 +69,40 @@ void MeshRenderer::initIndexBuffer()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * sizeof(uint32_t),  _mesh->indices , GL_STATIC_DRAW);
 }
+void MeshRenderer::init()
+{
+
+    if(_shader == nullptr)
+    {
+        _shader = new Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER);
+    }
+    bool shaderIsValid = (_shader && _shader->compile() && _shader->isValid());
+    if(_mesh != nullptr && _mesh->verticesExist() && shaderIsValid)
+    {
+        VAO.create();
+        VAO.bind();
+        if (_offScreenRenderingMode)
+        {
+            FBO.create();
+            initFramebufferOutputTexture(_viewportWidth, _viewportHeight);
+        }
+
+
+        glEnable(GL_DEPTH_TEST);
+
+        _vertexCount = _mesh->size;
+
+        initVertexBuffer(_shader->getAttribLocation("aPos"));
+        initUniformMatrices();
+        initModel();
+        initCamera();
+        if(_mesh->indicesExist())
+        {
+            _indexCount = _mesh->indexCount;
+            initIndexBuffer();
+        }
+
+
+        _initialized = true;
+    }
+}
