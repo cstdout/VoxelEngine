@@ -7,3 +7,14 @@ MeshRenderer::MeshRenderer(const Mesh* mesh, int32_t viewportWidth, int32_t view
     _viewportHeight = viewportHeight;
     _mesh = mesh;
 }
+MeshRenderer::~MeshRenderer()
+{
+    if(_vertexBuffer)
+    {
+        glDeleteBuffers(1, &_vertexBuffer);
+    }
+    if(_indexBuffer)
+    {
+        glDeleteBuffers(1, &_indexBuffer);
+    }
+}
