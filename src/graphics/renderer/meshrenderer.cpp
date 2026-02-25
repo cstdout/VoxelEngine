@@ -18,3 +18,7 @@ MeshRenderer::~MeshRenderer()
         glDeleteBuffers(1, &_indexBuffer);
     }
 }
+void MeshRenderer::setShader(Shader *shader)
+{
+    _shader = shader;
+}
