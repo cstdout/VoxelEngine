@@ -22,6 +22,10 @@ void MeshRenderer::setShader(Shader *shader)
 {
     _shader = shader;
 }
+void MeshRenderer::setWireframeModeOn(bool mode)
+{
+    _drawMode = (mode ? GL_LINES : GL_TRIANGLES);
+}
 void MeshRenderer::initVertexBuffer(int32_t vertexCoordInputLocation)
 {
     glGenBuffers(1, &_vertexBuffer);
@@ -123,10 +127,10 @@ void MeshRenderer::onDraw(float delta, int32_t w, int32_t h)
 
     if(_indexBuffer > 0)
     {
-        glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(_drawMode, _indexCount, GL_UNSIGNED_INT, nullptr);
     }
     else
     {
-        glDrawArrays(GL_TRIANGLES, 0, _vertexCount);
+        glDrawArrays(_drawMode, 0, _vertexCount);
     }
 }

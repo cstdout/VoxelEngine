@@ -49,6 +49,7 @@ public:
         "}\n";
     void init();
     void setShader(Shader* shader);
+    void setWireframeModeOn(bool mode);
 
 protected:
     void onDraw(float delta, int32_t w, int32_t h);
@@ -75,6 +76,8 @@ protected:
     virtual void initModel();
     void initCamera();
     void initIndexBuffer();
+
+    GLenum _drawMode = GL_TRIANGLES;
 
 };
 
