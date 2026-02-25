@@ -54,3 +54,7 @@ void MeshRenderer::initUniformMatrices()
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
 }
+void MeshRenderer::initModel()
+{
+    _model = Mat4(1.0f);
+}
