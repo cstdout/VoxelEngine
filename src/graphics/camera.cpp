@@ -67,3 +67,23 @@ void Camera::onKeyboard(Camera_Movement direction, float deltaTime)
         Position += positionDelta;
     }
 }
+void Camera::onMouse(float xoffset, float yoffset, bool constrainPitch)
+{
+    xoffset *= Sensitivity;
+    yoffset *= Sensitivity;
+
+    Yaw   += xoffset;
+    Pitch += yoffset;
+
+    // make sure that when pitch is out of bounds, screen doesn't get flipped
+    if (constrainPitch)
+    {
+        if (Pitch > 89.0f)
+            Pitch = 89.0f;
+        if (Pitch < -89.0f)
+            Pitch = -89.0f;
+    }
+
+    // update Front, Right and Up Vectors using the updated Euler angles
+    updateCameraVectors();
+}
