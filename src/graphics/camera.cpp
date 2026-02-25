@@ -43,3 +43,27 @@ void Camera::updateViewMatrix()
     Vec3::add(Position, Front, centerVec);
     Mat4::lookAt(Position, centerVec, Up, *viewMatrix, f, s, u);
 }
+void Camera::onKeyboard(Camera_Movement direction, float deltaTime)
+{
+    float velocity = Speed * deltaTime;
+    if (direction == FORWARD)
+    {
+        Vec3::multiply(Front, velocity, positionDelta);
+        Position += positionDelta;
+    }
+    if (direction == BACKWARD)
+    {
+        Vec3::multiply(Front, velocity, positionDelta);
+        Position -= positionDelta;
+    }
+    if (direction == LEFT)
+    {
+        Vec3::multiply(Right, velocity, positionDelta);
+        Position -= positionDelta;
+    }
+    if (direction == RIGHT)
+    {
+        Vec3::multiply(Right, velocity, positionDelta);
+        Position += positionDelta;
+    }
+}
