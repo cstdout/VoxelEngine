@@ -58,3 +58,7 @@ void MeshRenderer::initModel()
 {
     _model = Mat4(1.0f);
 }
+void MeshRenderer::initCamera()
+{
+    _camera.init(&_viewMatrix, Vec3(0.0f, 0.0f, 3.0f));
+}
