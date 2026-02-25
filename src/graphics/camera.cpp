@@ -25,3 +25,17 @@ void Camera::init(Mat4* viewMatrix,
     Speed = movementSpeed;
     Sensitivity = mouseSensitivity;
 }
+void Camera::updateCameraVectors()
+{
+    Front = Vec3(cosf(Vec3::radians(Yaw)) * cosf(Vec3::radians(Pitch)),
+                 sinf(Vec3::radians(Pitch)),
+                 sinf(Vec3::radians(Yaw)) * cosf(Vec3::radians(Pitch)));
+    Front.normalize();
+
+    Vec3::cross(Front, WorldUp, Right);
+    Right.normalize();
+
+    Vec3::cross(Right, Front, Up);
+    Up.normalize();
+
+}
