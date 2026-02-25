@@ -110,3 +110,23 @@ void MeshRenderer::linkUniforms()
 {
     _shader->setUniformMatrix4fv("model", _model.valuePtr());
 }
+void MeshRenderer::onDraw(float delta, int32_t w, int32_t h)
+{
+    _shader->use();
+    _camera.updateViewMatrix();
+
+    glBindBuffer(GL_UNIFORM_BUFFER, _uboMatrices);
+    glBufferSubData(GL_UNIFORM_BUFFER, Mat4::sizeInBytes, Mat4::sizeInBytes, _viewMatrix.valuePtr());
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    linkUniforms();
+
+    if(_indexBuffer > 0)
+    {
+        glDrawElements(GL_TRIANGLES, _indexCount, GL_UNSIGNED_INT, nullptr);
+    }
+    else
+    {
+        glDrawArrays(GL_TRIANGLES, 0, _vertexCount);
+    }
+}
