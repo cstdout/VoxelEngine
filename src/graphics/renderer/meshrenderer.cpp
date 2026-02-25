@@ -62,3 +62,10 @@ void MeshRenderer::initCamera()
 {
     _camera.init(&_viewMatrix, Vec3(0.0f, 0.0f, 3.0f));
 }
+void MeshRenderer::initIndexBuffer()
+{
+    glGenBuffers(1, &_indexBuffer);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, _indexCount * sizeof(uint32_t),  _mesh->indices , GL_STATIC_DRAW);
+}
