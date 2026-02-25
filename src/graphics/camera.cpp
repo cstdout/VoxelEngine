@@ -37,5 +37,9 @@ void Camera::updateCameraVectors()
 
     Vec3::cross(Right, Front, Up);
     Up.normalize();
-
+}
+void Camera::updateViewMatrix()
+{
+    Vec3::add(Position, Front, centerVec);
+    Mat4::lookAt(Position, centerVec, Up, *viewMatrix, f, s, u);
 }
