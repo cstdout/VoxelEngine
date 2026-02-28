@@ -86,4 +86,25 @@ void Mat4::operator=(const Mat4& other)
     mat[3][2] = other.mat[3][2];
     mat[3][3] = other.mat[3][3];
 }
+void Mat4::fill(float val)
+{
+    mat[0][0] = val;
+    mat[0][1] = val;
+    mat[0][2] = val;
+    mat[0][3] = val;
 
+    mat[1][0] = val;
+    mat[1][1] = val;
+    mat[1][2] = val;
+    mat[1][3] = val;
+
+    mat[2][0] = val;
+    mat[2][1] = val;
+    mat[2][2] = val;
+    mat[2][3] = val;
+
+    mat[3][0] = val;
+    mat[3][1] = val;
+    mat[3][2] = val;
+    mat[3][3] = val;
+}

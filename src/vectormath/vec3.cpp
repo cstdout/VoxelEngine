@@ -116,3 +116,9 @@ void Vec3::multiply(const Vec3& a, float alpha, Vec3& res)
     res.v[1] = a.v[1] * alpha;
     res.v[2] = a.v[2] * alpha;
 }
+void Vec3::fill(float val)
+{
+    v[0] = val;
+    v[1] = val;
+    v[2] = val;
+}

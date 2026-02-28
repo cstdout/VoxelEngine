@@ -35,6 +35,8 @@ public:
     static void subtract(const Vec3& a, const Vec3& b, Vec3& res);
     static void multiply(const Vec3& a, float alpha, Vec3& res);
 
+    void fill(float val);
+
 };
 
 #endif // VEC3_H

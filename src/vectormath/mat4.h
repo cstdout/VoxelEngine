@@ -30,6 +30,7 @@ public:
                        Vec3& u);
     static void perspective(float fovy, float aspect, float zNear, float zFar, Mat4& result);
     void operator=(const Mat4& other);
+    void fill(float val);
 
 };
 
