@@ -48,6 +48,7 @@ public:
         "   FragColor = vec4(0.0, 0.0, 1.0, 1.0);\n"
         "}\n";
     void init();
+    virtual void handleEvents(float delta);
     void setShader(Shader* shader);
     void setWireframeModeOn(bool mode);
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "meshrenderer.h"
+#include "src/events.h"
 
 MeshRenderer::MeshRenderer(const Mesh* mesh, int32_t viewportWidth, int32_t viewportHeight)
 {
@@ -25,6 +26,26 @@ void MeshRenderer::setShader(Shader *shader)
 void MeshRenderer::setWireframeModeOn(bool mode)
 {
     _drawMode = (mode ? GL_LINES : GL_TRIANGLES);
+}
+void MeshRenderer::handleEvents(float delta)
+{
+    if(Events::pressed(GLFW_KEY_W))
+    {
+        _camera.onKeyboard(FORWARD, delta);
+    }
+    if(Events::pressed(GLFW_KEY_S))
+    {
+        _camera.onKeyboard(BACKWARD, delta);
+    }
+    if(Events::pressed(GLFW_KEY_A))
+    {
+        _camera.onKeyboard(LEFT, delta);
+    }
+    if(Events::pressed(GLFW_KEY_D))
+    {
+        _camera.onKeyboard(RIGHT, delta);
+    }
+    _camera.onMouse(float(Events::deltaX), -float(Events::deltaY));
 }
 void MeshRenderer::initVertexBuffer(int32_t vertexCoordInputLocation)
 {
@@ -117,6 +138,8 @@ void MeshRenderer::linkUniforms()
 void MeshRenderer::onDraw(float delta, int32_t w, int32_t h)
 {
     _shader->use();
+    handleEvents(delta);
+
     _camera.updateViewMatrix();
 
     glBindBuffer(GL_UNIFORM_BUFFER, _uboMatrices);

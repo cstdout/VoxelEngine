@@ -14,6 +14,7 @@ public:
     void setWindow(Window* w);
     bool run();
     void setRenderer(Renderer* renderer);
+    virtual void handleEvents(float delta);
 private:
     Window* window = nullptr;
     static bool glfwInitialized;

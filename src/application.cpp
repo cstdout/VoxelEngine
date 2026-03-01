@@ -1,6 +1,7 @@
 #include <iostream>
 #include "application.h"
 #include "window.h"
+#include "events.h"
 
 bool Application::glfwInitialized = false;
 Application::Application()
@@ -8,6 +9,10 @@ Application::Application()
     if (!(Application::glfwInitialized) && glfwInit() == GLFW_TRUE)
     {
         Application::glfwInitialized = true;
+    }
+    if(!(Events::isInitialized()))
+    {
+        Events::initialize();
     }
 }
 bool Application::isGlfwInitialized()
@@ -25,6 +30,17 @@ void Application::setWindow(Window *w)
 void Application::setRenderer(Renderer *renderer)
 {
     _renderer = renderer;
+}
+void Application::handleEvents(float delta)
+{
+    if (Events::jpressed(GLFW_KEY_ESCAPE))
+    {
+        window->close();
+    }
+    if(Events::jpressed(GLFW_KEY_K))
+    {
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    }
 }
 bool Application::run()
 {
@@ -58,6 +74,8 @@ bool Application::run()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        handleEvents(deltaTime);
+
         // For multiple windows in the future may be
         window->makeContextCurrent();
 
@@ -65,7 +83,7 @@ bool Application::run()
         _renderer->render(deltaTime, window->width(), window->height());
 
         window->swapBuffers();
-        glfwPollEvents();
+        Events::pollEvents();
 
     }
     window->opened = false;

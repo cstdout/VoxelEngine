@@ -1,5 +1,6 @@
 #include <iostream>
 #include "window.h"
+#include "events.h"
 
 Window::Window(int32_t width, int32_t height, const std::string& title)
 {
@@ -57,7 +58,7 @@ int32_t Window::create()
     }
     glViewport(0, 0, _width, _height);
 
-    //TODO: set event callbacks
+    Events::setEventCallbacks(_window);
 
     opened = true;
     return 0;
