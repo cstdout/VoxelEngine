@@ -56,6 +56,7 @@ protected:
     void onDraw(float delta, int32_t w, int32_t h);
     virtual void linkUniforms();
     Shader* _shader = nullptr;
+    bool shouldDeleteShaderInDestructor = false;
 
     uint32_t _vertexBuffer = 0;
     uint32_t _uboMatrices = 0;

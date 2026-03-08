@@ -18,6 +18,10 @@ MeshRenderer::~MeshRenderer()
     {
         glDeleteBuffers(1, &_indexBuffer);
     }
+    if(shouldDeleteShaderInDestructor && _shader != nullptr)
+    {
+        delete _shader;
+    }
 }
 void MeshRenderer::setShader(Shader *shader)
 {
@@ -100,6 +104,7 @@ void MeshRenderer::init()
     if(_shader == nullptr)
     {
         _shader = new Shader(DEFAULT_VERTEX_SHADER, DEFAULT_FRAGMENT_SHADER);
+        shouldDeleteShaderInDestructor = true;
     }
     bool shaderIsValid = (_shader && _shader->compile() && _shader->isValid());
     if(_mesh != nullptr && _mesh->verticesExist() && shaderIsValid)
