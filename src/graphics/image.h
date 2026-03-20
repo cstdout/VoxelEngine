@@ -56,6 +56,7 @@ public:
     static void freeBytes(Image* img);
 
     Image* addAlphaChannel(uint8_t alpha) const;
+    Image* removeAlphaChannel() const;
 private:
     uint32_t _width = 0;
     uint32_t _height = 0;

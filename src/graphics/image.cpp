@@ -217,3 +217,22 @@ Image* Image::addAlphaChannel(uint8_t alpha) const
     return nullptr;
 
 }
+Image* Image::removeAlphaChannel() const
+{
+    if(_channels == 4)
+    {
+        Image* img = new Image(_width, _height, 3);
+        uint32_t i = 0, j = 0, s = img->_size;
+        while(i < s)
+        {
+            img->bytes[i++] = bytes[j++];
+            if((j % 4) == 3)
+            {
+                ++j;
+            }
+
+        }
+        return img;
+    }
+    return nullptr;
+}
