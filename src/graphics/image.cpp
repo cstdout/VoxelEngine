@@ -197,7 +197,7 @@ bool Image::addImage(const Image &other, uint32_t x, uint32_t y)
     }
     return true;
 }
-Image* Image::addAlphaChannel(uint8_t alpha)
+Image* Image::addAlphaChannel(uint8_t alpha) const
 {
     if(_channels == 3)
     {
