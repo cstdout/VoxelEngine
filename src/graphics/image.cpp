@@ -188,15 +188,12 @@ bool Image::addImage(const Image &other, uint32_t x, uint32_t y)
     }
     while(otherImageIndex < otherImageSize && currentImageIndex < currentImageSize)
     {
-        bytes[currentImageIndex] = other.bytes[otherImageIndex];
+        bytes[currentImageIndex++] = other.bytes[otherImageIndex++];
         if(otherImageIndex > 0 && !(otherImageIndex % otherImageRowStride))
         {
             ++y;
             currentImageIndex = index(x, y, currentImageRowStride);
         }
-
-        ++currentImageIndex;
-        ++otherImageIndex;
     }
     return true;
 }
