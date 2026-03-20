@@ -238,3 +238,7 @@ Texture::~Texture()
     }
 
 }
+bool Texture::isInitialized() const
+{
+    return _id && (_width > 0) && (_height > 0) && (_channels > 0);
+}
