@@ -88,6 +88,10 @@ bool Image::save(const std::string& fileName,
                  Image::IMG_FORMATS format)
 {
     bool res = false;
+    if(bytes == nullptr)
+    {
+        return res;
+    }
     switch(format)
     {
         case Image::IMG_FORMATS::PNG:
