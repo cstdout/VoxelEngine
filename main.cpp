@@ -16,6 +16,7 @@ int main()
 
     MeshRenderer meshRenderer(&block, WINDOW_WIDTH, WINDOW_HEIGHT);
     Window w(WINDOW_WIDTH, WINDOW_HEIGHT, "My Window");
+    w.setCursorDisabled(true);
 
     Application app;
     app.setWindow(&w);
