@@ -54,6 +54,9 @@ public:
     uint32_t index(uint32_t x, uint32_t y, uint32_t stride = 0) const;
 
     static void freeBytes(Image* img);
+
+    Image* addAlphaChannel(uint8_t alpha);
+
 private:
     uint32_t _width = 0;
     uint32_t _height = 0;

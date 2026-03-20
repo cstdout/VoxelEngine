@@ -197,3 +197,23 @@ bool Image::addImage(const Image &other, uint32_t x, uint32_t y)
     }
     return true;
 }
+Image* Image::addAlphaChannel(uint8_t alpha)
+{
+    if(_channels == 3)
+    {
+        Image* img = new Image(_width, _height, 4);
+        uint32_t i = 0, j = 0;
+        while(i < _size)
+        {
+            img->bytes[j++] = bytes[i++];
+            if((j % 4) == 3)
+            {
+                img->bytes[j++] = alpha;
+            }
+
+        }
+        return img;
+    }
+    return nullptr;
+
+}
