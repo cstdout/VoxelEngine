@@ -149,6 +149,7 @@ Image* Image::fromPath(const std::string& path, bool flipVerticallyOnLoad)
     image->_width = uint32_t(width);
     image->_height = uint32_t(height);
     image->_channels = uint32_t(channels);
+    image->_size = uint32_t(width) * uint32_t(height) * uint32_t(channels);
     image->_path = path;
     image->bytes = data;
     return image;
