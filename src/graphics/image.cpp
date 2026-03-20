@@ -138,7 +138,7 @@ Image* Image::fromPath(const std::string& path, bool flipVerticallyOnLoad)
     uint8_t* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
     if (!data)
     {
-        std::cout << "Failed to load image" << std::endl;
+        std::cerr << "Failed to load image" << std::endl;
         return nullptr;
     }
     Image* image = new Image();
