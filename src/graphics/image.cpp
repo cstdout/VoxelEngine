@@ -28,12 +28,17 @@ Image::Image(uint32_t width, uint32_t height, uint32_t channels)
     bytes = new uint8_t[s];
     std::fill_n(bytes, s, 0);
 }
+void Image::freeBytes(Image *img)
+{
+    if(img->bytes != nullptr)
+    {
+        stbi_image_free(img->bytes);
+        img->bytes = nullptr;
+    }
+}
 Image::~Image()
 {
-    if(bytes != nullptr)
-    {
-        stbi_image_free(bytes);
-    }
+    Image::freeBytes(this);
 }
 uint32_t Image::size() const
 {

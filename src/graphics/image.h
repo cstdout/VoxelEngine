@@ -52,6 +52,8 @@ public:
 
     bool addImage(const Image& other, uint32_t x = 0, uint32_t y = 0);
     uint32_t index(uint32_t x, uint32_t y, uint32_t stride = 0) const;
+
+    static void freeBytes(Image* img);
 private:
     uint32_t _width = 0;
     uint32_t _height = 0;
