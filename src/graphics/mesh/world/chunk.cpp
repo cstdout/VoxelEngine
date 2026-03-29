@@ -71,3 +71,51 @@ Chunk::~Chunk()
 
     textureAtlas = nullptr;
 }
+void Chunk::addFaceMesh(const Block* block,
+                        int8_t faceType,
+                        float* outVertices,
+                        float* outUVs,
+                        uint32_t* outIndices,
+                        uint32_t vertexIndex) const
+{
+    const uint32_t VERTEX_ARRAY_LENGTH = BlockFace::VERTEX_ARRAY_LENGTH;
+    const uint32_t UV_TEX_COORDS_ARRAY_LENGTH = BlockFaceTexCoords::UV_TEX_COORDS_ARRAY_LENGTH;
+
+    uint32_t blockType = block->getType();
+    BlockFaceTexCoords* face = textureAtlas->blockTexCoords.at(blockType)->faces[faceType];
+    for(uint32_t v = 0, u = 0; (v < VERTEX_ARRAY_LENGTH) && (u < UV_TEX_COORDS_ARRAY_LENGTH); v += 3, u += 2)
+    {
+        *outVertices = block->faces[faceType]->vertices[v];
+        ++outVertices;
+
+        *outVertices = block->faces[faceType]->vertices[v + 1];
+        ++outVertices;
+
+        *outVertices = block->faces[faceType]->vertices[v + 2];
+        ++outVertices;
+
+        *outUVs = face->uvTexCoords[u];
+        ++outUVs;
+
+        *outUVs = face->uvTexCoords[u + 1];
+        ++outUVs;
+    }
+
+    *outIndices = vertexIndex;
+    ++outIndices;
+
+    *outIndices = vertexIndex + 1;
+    ++outIndices;
+
+    *outIndices = vertexIndex + 2;
+    ++outIndices;
+
+    *outIndices = vertexIndex + 1;
+    ++outIndices;
+
+    *outIndices = vertexIndex + 3;
+    ++outIndices;
+
+    *outIndices = vertexIndex + 2;
+    ++outIndices;
+}
