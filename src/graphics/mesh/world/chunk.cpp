@@ -119,3 +119,98 @@ void Chunk::addFaceMesh(const Block* block,
     *outIndices = vertexIndex + 2;
     ++outIndices;
 }
+Mesh* Chunk::buildMesh() const
+{
+
+    Mesh* mesh = new Mesh;
+    uint32_t size = nonTransparentBlocks * Block::FACE_COUNT * BlockFace::VERTEX_ARRAY_LENGTH;
+    float* vertices = new float[size];
+
+    uint32_t indexCount = nonTransparentBlocks * Block::FACE_COUNT * 6;
+    uint32_t* indices = new uint32_t[indexCount];
+
+    uint32_t uvSize = nonTransparentBlocks * Block::FACE_COUNT * 8;
+    float* uvs = new float[uvSize];
+
+    mesh->vertices = vertices;
+    mesh->indices = indices;
+    mesh->uvs = uvs;
+    uint32_t vertexCoordinateIndex = 0;
+    uint32_t vertexIndex = 0;
+    uint32_t uvIndex = 0;
+    uint32_t idx = 0;
+
+    uint32_t blockType = 0;
+
+    const uint32_t VERTEX_ARRAY_LENGTH = BlockFace::VERTEX_ARRAY_LENGTH;
+    const uint32_t UV_TEX_COORDS_ARRAY_LENGTH = BlockFaceTexCoords::UV_TEX_COORDS_ARRAY_LENGTH;
+
+
+    for(uint32_t i = 0; i < WIDTH; ++i)
+    {
+        for(uint32_t k = 0; k < DEPTH; ++k)
+        {
+            for(uint32_t j = 0; j < HEIGHT; ++j)
+            {
+                blockType = blocks[i][k][j].getType();
+                if(blocks[i][k][j].isNotAir())
+                {
+                    if((i == 0) || (i > 0 && blocks[i - 1][k][j].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], LEFT_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                    if((i == (WIDTH - 1)) || ((i < WIDTH - 1) && blocks[i + 1][k][j].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], RIGHT_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                    if((j == (HEIGHT - 1)) || ((j < HEIGHT - 1) && blocks[i][k][j + 1].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], TOP_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                    if((j == 0) || ((j > 0) && blocks[i][k][j - 1].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], BOTTOM_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                    if((k == (DEPTH - 1)) || ((k < DEPTH - 1) && blocks[i][k + 1][j].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], FRONT_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                    if((k == 0) || ((k > 0) && blocks[i][k - 1][j].isAir()))
+                    {
+                        addFaceMesh(&blocks[i][k][j], BACK_FACE, vertices + vertexCoordinateIndex, uvs + uvIndex, indices + idx, vertexIndex);
+                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                        idx += 6;
+                        vertexIndex += 4;
+                    }
+                }
+
+            }
+        }
+    }
+
+    mesh->size = vertexCoordinateIndex;
+    mesh->uvSize = uvIndex;
+    mesh->indexCount = idx;
+    return mesh;
+}
