@@ -194,3 +194,53 @@ void TextureAtlas::loadFaceTextures()
         }
     }
 }
+void TextureAtlas::buildUVs()
+{
+    uint32_t xPos = 0, yPos = 0, maxHeight = 0;
+    TextureForFaces* loadedTexture;
+    Image* img;
+    float xStart = 0.0f,
+          yStart = 0.0f,
+          xEnd = 0.0f,
+          yEnd = 0.0f,
+          w = float(texWidth),
+          h = float(texHeight);
+
+    uint32_t index = 0;
+    float* uvs = nullptr;
+    for(std::map<std::string, TextureForFaces*>::iterator it = textures.begin(); it != textures.end(); ++it)
+    {
+
+        loadedTexture = it->second;
+        img = loadedTexture->image;
+        if(img->height() > maxHeight)
+        {
+            maxHeight = img->height();
+        }
+        if(xPos + img->width() > textureAtlas->width())
+        {
+            xPos = 0;
+            yPos += maxHeight;
+            maxHeight = 0;
+        }
+
+        textureAtlas->addImage(*img, xPos, yPos);
+        xStart = xPos / w;
+        yStart = yPos / h;
+        xEnd = (xPos + float(img->width())) / w;
+        yEnd = (yPos + float(img->height())) / h;
+        size_t s = loadedTexture->faceIds.size();
+        for(size_t i = 0; i < s; ++i)
+        {
+            index = 0;
+            uvs = allFaces[loadedTexture->faceIds.at(i)]->uvTexCoords;
+            uvs[index++] = xStart; uvs[index++] = yEnd;
+            uvs[index++] = xEnd;   uvs[index++] = yEnd;
+            uvs[index++] = xStart; uvs[index++] = yStart;
+            uvs[index++] = xEnd;   uvs[index++] = yStart;
+
+        }
+
+        xPos += img->width();
+    }
+}
