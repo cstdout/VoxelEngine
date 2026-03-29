@@ -21,7 +21,9 @@ MeshRenderer::~MeshRenderer()
     if(shouldDeleteShaderInDestructor && _shader != nullptr)
     {
         delete _shader;
+        _shader = nullptr;
     }
+    _mesh = nullptr;
 }
 void MeshRenderer::setShader(Shader *shader)
 {
