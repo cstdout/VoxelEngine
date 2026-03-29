@@ -252,3 +252,24 @@ uint32_t TextureAtlas::getHeight() const
 {
     return this->texHeight;
 }
+TextureAtlas::~TextureAtlas()
+{
+    allFaces.clear();
+    size_t s = blockTexCoords.size();
+
+    for(size_t i = 0; i < s; ++i)
+    {
+        delete blockTexCoords[i];
+    }
+    blockTexCoords.clear();
+    texturePaths.clear();
+
+    for(std::map<std::string, TextureForFaces*>::iterator it = textures.begin(); it != textures.end(); ++it)
+    {
+        delete it->second;
+    }
+
+    textures.clear();
+    delete textureAtlas;
+    textureAtlas = nullptr;
+}
