@@ -143,3 +143,11 @@ void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint3
 
     textureAtlas = new Image(atlasWidth, atlasHeight, 4);
 }
+void TextureAtlas::addBlock(BlockTexCoords *uvTexCoords)
+{
+    blockTexCoords.push_back(uvTexCoords);
+    for(uint32_t i = 0; i < BlockTexCoords::FACE_COUNT; ++i)
+    {
+        allFaces.push_back(uvTexCoords->faces[i]);
+    }
+}
