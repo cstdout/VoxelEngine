@@ -2,11 +2,11 @@
 
 TextureAtlas::TextureAtlas(const char* assetsDir, uint32_t atlasWidth, uint32_t atlasHeight)
 {
-
+    init(std::string(assetsDir), atlasWidth, atlasHeight);
 }
 TextureAtlas::TextureAtlas(const std::string& assetsDir, uint32_t atlasWidth, uint32_t atlasHeight)
 {
-
+    init(assetsDir, atlasWidth, atlasHeight);
 }
 void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint32_t atlasHeight)
 {
