@@ -52,3 +52,22 @@ Chunk::Chunk(uint32_t* heightMap, uint32_t size, TextureAtlas* textureAtlas, int
         }
     }
 }
+Chunk::~Chunk()
+{
+
+    for(uint32_t x = 0; x < WIDTH; ++x)
+    {
+        for(uint32_t z = 0; z < DEPTH; ++z)
+        {
+            delete [] blocks[x][z];
+        }
+        delete [] blocks[x];
+    }
+    delete [] blocks;
+    blocks = nullptr;
+
+    this->heightMap = nullptr;
+    mapSize = 0;
+
+    textureAtlas = nullptr;
+}
