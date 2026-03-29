@@ -1,4 +1,5 @@
 #include "textureatlas.h"
+#include <iostream>
 
 TextureAtlas::TextureAtlas(const char* assetsDir, uint32_t atlasWidth, uint32_t atlasHeight)
 {
@@ -149,5 +150,47 @@ void TextureAtlas::addBlock(BlockTexCoords *uvTexCoords)
     for(uint32_t i = 0; i < BlockTexCoords::FACE_COUNT; ++i)
     {
         allFaces.push_back(uvTexCoords->faces[i]);
+    }
+}
+void TextureAtlas::loadFaceTextures()
+{
+    std::string texPath;
+    Image* img;
+    Image* img4Channels;
+    size_t faceCount = allFaces.size();
+
+    for(size_t i = 0; i < faceCount; ++i)
+    {
+        texPath = allFaces.at(i)->texPath;
+        if(texPath.empty())
+        {
+            std::cerr << "TextureAtlas::Empty texture path" << std::endl;
+        }
+        else
+        {
+            if(texturePaths.find(texPath) == texturePaths.end())
+            {
+                img = Image::fromPath(assetsDir + texPath);
+                if(img != nullptr && img->bytes != nullptr)
+                {
+                    texturePaths.insert(texPath);
+                    if(img->channels() == 3)
+                    {
+                        img4Channels = img->addAlphaChannel();
+                        Image::freeBytes(img);
+                    }
+                    else
+                    {
+                        img4Channels = img;
+                    }
+
+                    textures[texPath] = new TextureForFaces(img4Channels, uint32_t(i));
+                }
+            }
+            else
+            {
+                textures[texPath]->faceIds.push_back(uint32_t(i));
+            }
+        }
     }
 }
