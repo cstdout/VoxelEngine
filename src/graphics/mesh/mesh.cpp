@@ -4,6 +4,10 @@ Mesh::Mesh()
 {
 
 }
+Mesh::~Mesh()
+{
+    resetPointers();
+}
 Mesh::Mesh(const float* vertices,
            uint32_t size,
 
@@ -32,6 +36,9 @@ void Mesh::resetPointers()
 
     this->normals = nullptr;
     this->normalCount = 0;
+
+    this->uvs = nullptr;
+    this->uvSize = 0;
 }
 bool Mesh::verticesExist() const
 {
@@ -44,4 +51,8 @@ bool Mesh::indicesExist() const
 bool Mesh::normalsExist() const
 {
     return (normals != nullptr && normalCount > 0);
+}
+bool Mesh::uvsExist() const
+{
+    return (uvs != nullptr && uvSize > 0);
 }

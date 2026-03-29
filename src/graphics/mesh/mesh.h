@@ -14,6 +14,7 @@ public:
 
          const float* normals = nullptr,
          uint32_t normalCount = 0);
+    ~Mesh();
 
     const float* vertices = nullptr;
     uint32_t size = 0;
@@ -24,11 +25,15 @@ public:
     const float* normals = nullptr;
     uint32_t normalCount = 0;
 
+    const float* uvs = nullptr;
+    uint32_t uvSize = 0;
+
     void resetPointers();
 
     bool verticesExist() const;
     bool indicesExist() const;
     bool normalsExist() const;
+    bool uvsExist() const;
 };
 
 #endif // MESH_H
