@@ -244,3 +244,11 @@ void TextureAtlas::buildUVs()
         xPos += img->width();
     }
 }
+uint32_t TextureAtlas::getWidth() const
+{
+    return this->texWidth;
+}
+uint32_t TextureAtlas::getHeight() const
+{
+    return this->texHeight;
+}
