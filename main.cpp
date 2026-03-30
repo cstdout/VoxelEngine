@@ -5,7 +5,6 @@
 #include "src/graphics/renderer/chunkrenderer.h"
 #include "src/graphics/mesh/world/chunk.h"
 
-using namespace std;
 
 int main()
 {
