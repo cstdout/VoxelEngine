@@ -146,3 +146,8 @@ void PerlinNoise::generateNoise(const PerlinNoiseConfig &noiseConfig, bool shoul
         }
     }
 }
+float PerlinNoise::heightCurve(float val, float heightMultiplier)
+{
+    float s = val * val;
+    return (-0.348532f * val + 0.551974f * s + 0.796559f * s * val) * heightMultiplier;
+}
