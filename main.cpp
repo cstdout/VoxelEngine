@@ -8,7 +8,7 @@
 
 int main()
 {
-    uint32_t mapSize = 256;
+    uint32_t mapSize = Chunk::WIDTH;
 
     PerlinNoiseConfig noiseConfig;
     noiseConfig.octaves = 12;
