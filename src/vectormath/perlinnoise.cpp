@@ -73,3 +73,76 @@ int32_t PerlinNoise::getRandomNumber(uint32_t seed, int32_t minVal, int32_t maxV
     srand(seed);
     return (rand() % maxVal) + minVal;
 }
+void PerlinNoise::generateNoise(const PerlinNoiseConfig &noiseConfig, bool shouldNormalizeFromZeroToOne)
+{
+    float noiseVal;
+    float frequency;
+    float amplitude;
+
+    uint32_t octaves = noiseConfig.octaves;
+    float scale = noiseConfig.scale;
+    float lacunarity = noiseConfig.lacunarity;
+    float persistance = noiseConfig.persistance;
+    uint32_t seed = noiseConfig.seed;
+
+    float offsetX = noiseConfig.offsetX;
+    float offsetY = noiseConfig.offsetY;
+
+    if(offsetX < 0)
+    {
+        offsetX = 0;
+    }
+    if(offsetY < 0)
+    {
+        offsetY = 0;
+    }
+
+    if(scale <= 0)
+    {
+        scale = 1e-5f;
+    }
+    float sampleX;
+    float sampleY;
+    int32_t maxNumber = 1000;
+    int32_t minNumber = 0;
+    float randomX;
+    float randomY;
+
+    uint32_t index = 0;
+    for(uint32_t x = 0; x < mapSize; ++x)
+    {
+        for(uint32_t y = 0; y < mapSize; ++y)
+        {
+            noiseVal = 0;
+            frequency = 1.0f;
+            amplitude = 1.0f;
+
+            for (uint32_t i = 0; i < octaves; ++i)
+            {
+                randomX = float(PerlinNoise::getRandomNumber(seed, minNumber, maxNumber));
+                randomY = float(PerlinNoise::getRandomNumber(seed, minNumber, maxNumber));
+                sampleX = (float(x) / scale * frequency) + randomX + offsetX;
+                sampleY = (float(y) / scale * frequency) + randomY + offsetY;
+                noiseVal += (perlin(sampleX, sampleY) * amplitude);
+
+                frequency *= lacunarity;
+                amplitude *= persistance;
+
+            }
+
+            if (noiseVal > 1.0f)
+            {
+                noiseVal = 1.0f;
+            }
+            else if (noiseVal < -1.0f)
+            {
+                noiseVal = -1.0f;
+            }
+            if(shouldNormalizeFromZeroToOne)
+            {
+                normalizeFromZeroToOne(&noiseVal);
+            }
+            noise[index++] = noiseVal;
+        }
+    }
+}
