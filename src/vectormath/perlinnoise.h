@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include "src/graphics/image.h"
-//#include "src/vectormath/vec2.h"
+
 
 struct PerlinNoiseConfig {
     uint32_t octaves = 12;
