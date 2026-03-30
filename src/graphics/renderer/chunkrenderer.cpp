@@ -76,3 +76,26 @@ void ChunkRenderer::linkUniforms()
     _shader->setUniformMatrix4fv("model", _model.valuePtr());
     _shader->setUniform1i("ourTexture", _textureAtlas->getActiveSlot());
 }
+void ChunkRenderer::onDraw(float delta, int32_t w, int32_t h)
+{
+    _shader->use();
+    _textureAtlas->bind();
+    handleEvents(delta);
+
+    _camera.updateViewMatrix();
+
+    glBindBuffer(GL_UNIFORM_BUFFER, _uboMatrices);
+    glBufferSubData(GL_UNIFORM_BUFFER, Mat4::sizeInBytes, Mat4::sizeInBytes, _viewMatrix.valuePtr());
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    linkUniforms();
+
+    if(_indexBuffer > 0)
+    {
+        glDrawElements(_drawMode, _indexCount, GL_UNSIGNED_INT, nullptr);
+    }
+    else
+    {
+        glDrawArrays(_drawMode, 0, _vertexCount);
+    }
+}
