@@ -179,7 +179,11 @@ Image* PerlinNoise::noiseToImage(float *noise, uint32_t mapSize, bool shouldNorm
 PerlinNoise::~PerlinNoise()
 {
     delete [] noise;
-    Image::freeBytes(noiseMap);
+    if(noiseMap != nullptr)
+    {
+        Image::freeBytes(noiseMap);
+    }
+
     noiseMap = nullptr;
     mapSize = 0;
     noiseArrSize = 0;
