@@ -79,7 +79,7 @@ void MeshRenderer::initUniformMatrices()
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, _uboMatrices, 0, 2 * Mat4::sizeInBytes);
 
     // store the projection matrix (we only do this once now) (note: we're not using zoom anymore by changing the FoV)
-    Mat4::perspective(45.0f, float(_viewportWidth) / float(_viewportHeight), 0.1f, 100.0f, _projection);
+    Mat4::perspective(45.0f, float(_viewportWidth) / float(_viewportHeight), 0.1f, 1000.0f, _projection);
     glBindBuffer(GL_UNIFORM_BUFFER, _uboMatrices);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, Mat4::sizeInBytes, _projection.valuePtr());
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
