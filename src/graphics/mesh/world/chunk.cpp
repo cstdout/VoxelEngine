@@ -18,7 +18,7 @@ Chunk::Chunk()
 {
     init();
 }
-Chunk::Chunk(uint32_t* heightMap, uint32_t size, TextureAtlas* textureAtlas, int32_t x, int32_t y, int32_t z)
+Chunk::Chunk(float* heightMap, uint32_t size, TextureAtlas* textureAtlas, int32_t x, int32_t y, int32_t z)
 {
     if(size >= getAreaInBlocks())
     {
@@ -39,9 +39,21 @@ Chunk::Chunk(uint32_t* heightMap, uint32_t size, TextureAtlas* textureAtlas, int
                 heightMapValue = heightMap[heightMapIndex++];
                 for(uint32_t j = 0; j < HEIGHT; ++j)
                 {
-                    if(j < heightMapValue)
+                    if(j == 0)
                     {
-                        blocks[i][k][j].setType(BlockType::GRASS);
+                        blocks[i][k][j].setType(BlockType::SAND);
+                        ++nonTransparentBlocks;
+                    }
+                    else if(j < heightMapValue)
+                    {
+                        if(j < 5)
+                        {
+                            blocks[i][k][j].setType(BlockType::STONE);
+                        }
+                        else {
+                            blocks[i][k][j].setType(BlockType::GRASS);
+                        }
+
                         ++nonTransparentBlocks;
                     }
                     blocks[i][k][j].translate(float(i) + float(x),

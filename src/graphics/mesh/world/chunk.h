@@ -7,9 +7,9 @@
 class Chunk
 {
 public:
-    static const uint32_t WIDTH = 128;
-    static const uint32_t HEIGHT = 16;
-    static const uint32_t DEPTH = 128;
+    static const uint32_t WIDTH = 256;
+    static const uint32_t HEIGHT = 32;
+    static const uint32_t DEPTH = 256;
     static uint32_t getBlockTotalCount()
     {
         return WIDTH * HEIGHT * DEPTH;
@@ -19,7 +19,7 @@ public:
         return WIDTH * DEPTH;
     }
     Chunk();
-    Chunk(uint32_t* heightMap,
+    Chunk(float* heightMap,
           uint32_t mapSize,
           TextureAtlas* textureAtlas,
           int32_t x = 0,
@@ -38,7 +38,7 @@ public:
                      uint32_t vertexIndex = 0) const;
 private:
     void init();
-    uint32_t* heightMap = nullptr;
+    float* heightMap = nullptr;
     uint32_t mapSize = 0;
     int32_t x = 0;
     int32_t y = 0;

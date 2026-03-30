@@ -4,10 +4,23 @@
 #include "src/window.h"
 #include "src/graphics/renderer/chunkrenderer.h"
 #include "src/graphics/mesh/world/chunk.h"
-
+#include "src/vectormath/perlinnoise.h"
 
 int main()
 {
+    uint32_t mapSize = 256;
+
+    PerlinNoiseConfig noiseConfig;
+    noiseConfig.octaves = 12;
+    noiseConfig.offsetX = 0;
+    noiseConfig.seed = 0;
+    noiseConfig.heightMultiplier = 128;
+    PerlinNoise perlinNoise(mapSize);
+    perlinNoise.generateNoise(noiseConfig);
+//    Image* img = PerlinNoise::noiseToImage(perlinNoise.noise, perlinNoise.getMapSize());
+//    img->save("perlinNoise.png", Image::IMG_FORMATS::PNG);
+
+
     TextureAtlas texAtlas("assets/textures/blocks/", 256, 256);
     texAtlas.loadFaceTextures();
     texAtlas.buildUVs();
@@ -19,14 +32,8 @@ int main()
     config.maxFilter = GL_NEAREST;
     Texture tex(texAtlas.textureAtlas, config);
 
-    uint32_t elemCount = Chunk::getAreaInBlocks();
-    uint32_t* heightMap = new uint32_t[elemCount];
-    srand(NULL);
-    for(int i = 0; i < elemCount; ++i)
-    {
-        heightMap[i] = rand() % 16;
-    }
-    Chunk chunk(heightMap, elemCount, &texAtlas);
+
+    Chunk chunk(perlinNoise.noise, mapSize * mapSize, &texAtlas);
     Mesh* mesh = chunk.buildMesh();
 
     const int32_t WINDOW_WIDTH = 720;

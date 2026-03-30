@@ -87,6 +87,7 @@ void PerlinNoise::generateNoise(const PerlinNoiseConfig &noiseConfig, bool shoul
 
     float offsetX = noiseConfig.offsetX;
     float offsetY = noiseConfig.offsetY;
+    float heightMultiplier = noiseConfig.heightMultiplier;
 
     if(offsetX < 0)
     {
@@ -142,7 +143,7 @@ void PerlinNoise::generateNoise(const PerlinNoiseConfig &noiseConfig, bool shoul
             {
                 normalizeFromZeroToOne(&noiseVal);
             }
-            noise[index++] = noiseVal;
+            noise[index++] = heightCurve(noiseVal, heightMultiplier);
         }
     }
 }

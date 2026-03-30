@@ -13,7 +13,7 @@ struct PerlinNoiseConfig {
     float persistance = 0.5f;
     float offsetX = 0;
     float offsetY = 0;
-
+    float heightMultiplier = 2.0f;
 };
 
 class PerlinNoise
