@@ -66,6 +66,9 @@ bool Application::run()
         return false;
     }
 
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
     float currentFrame, deltaTime;
     float lastFrame = 0.0f;
     while(!(window->isShouldClose()))
