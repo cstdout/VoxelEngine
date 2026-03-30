@@ -7,9 +7,9 @@
 class Chunk
 {
 public:
-    static const uint32_t WIDTH = 16;
-    static const uint32_t HEIGHT = 256;
-    static const uint32_t DEPTH = 16;
+    static const uint32_t WIDTH = 128;
+    static const uint32_t HEIGHT = 16;
+    static const uint32_t DEPTH = 128;
     static uint32_t getBlockTotalCount()
     {
         return WIDTH * HEIGHT * DEPTH;
