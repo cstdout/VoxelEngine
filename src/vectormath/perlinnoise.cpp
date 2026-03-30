@@ -68,3 +68,8 @@ void PerlinNoise::normalizeFromZeroToOne(float* noiseVal)
 {
     (*noiseVal) = ((*noiseVal) / 2.0f) + 0.5f;
 }
+int32_t PerlinNoise::getRandomNumber(uint32_t seed, int32_t minVal, int32_t maxVal)
+{
+    srand(seed);
+    return (rand() % maxVal) + minVal;
+}
