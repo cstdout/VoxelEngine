@@ -24,3 +24,50 @@ void ChunkRenderer::initTextureCoords(int32_t texCoordsBufferInputLocation)
     glVertexAttribPointer(texCoordsBufferInputLocation, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 }
+void ChunkRenderer::init()
+{
+    if(_textureAtlas != nullptr)
+    {
+        _textureAtlas->load();
+    }
+    if(_shader == nullptr)
+    {
+        _shader = new Shader(DEFAULT_VERTEX_SHADER, DEFAULT_TEXTURE_FRAGMENT_SHADER);
+        shouldDeleteShaderInDestructor = true;
+    }
+    bool shaderIsValid = (_shader && _shader->compile() && _shader->isValid());
+    bool textureIsValid = (_textureAtlas && _textureAtlas->isInitialized());
+    if(_mesh != nullptr && _mesh->verticesExist() && shaderIsValid && textureIsValid)
+    {
+        VAO.create();
+        VAO.bind();
+        if (_offScreenRenderingMode)
+        {
+            FBO.create();
+            initFramebufferOutputTexture(_viewportWidth, _viewportHeight);
+        }
+
+
+        glEnable(GL_DEPTH_TEST);
+
+        _vertexCount = _mesh->size;
+
+        initVertexBuffer(_shader->getAttribLocation("aPos"));
+        if(_mesh->uvsExist())
+        {
+            initTextureCoords(_shader->getAttribLocation("aTexCoord"));
+        }
+
+        initUniformMatrices();
+        initModel();
+        initCamera();
+        if(_mesh->indicesExist())
+        {
+            _indexCount = _mesh->indexCount;
+            initIndexBuffer();
+        }
+
+        _camera.Speed = 10.0f;
+        _initialized = true;
+    }
+}
