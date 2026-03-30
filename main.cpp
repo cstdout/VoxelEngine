@@ -28,7 +28,7 @@ int main()
 
 
     TextureConfig config;
-    config.minFilter = GL_NEAREST;
+    config.minFilter = GL_NEAREST_MIPMAP_LINEAR;
     config.maxFilter = GL_NEAREST;
     Texture tex(texAtlas.textureAtlas, config);
 
