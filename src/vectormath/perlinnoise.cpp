@@ -25,3 +25,13 @@ void PerlinNoise::randomGradient(int32_t x, int32_t y, float* outX, float* outY)
     (*outX) = sinf(random);
     (*outY) = cosf(random);
 }
+float PerlinNoise::dotGridGradient(int32_t x, int32_t y, float x1, float y1)
+{
+    float gradientX, gradientY;
+    randomGradient(x, y, &gradientX, &gradientY);
+
+    float dx = x1 - float(x);
+    float dy = y1 - float(y);
+
+    return (dx * gradientX) + (dy * gradientY);
+}
