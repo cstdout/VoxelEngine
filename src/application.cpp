@@ -68,6 +68,8 @@ bool Application::run()
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
+    glClearColor(56.0f/ 255.0f, 133.0f/ 255.0f, 171.0f/ 255.0f, 1.0f);
+
 
     float currentFrame, deltaTime;
     float lastFrame = 0.0f;
