@@ -60,3 +60,11 @@ float PerlinNoise::perlin(float x, float y)
 
     return cubicInterpolation(ix0, ix1, sy);
 }
+float PerlinNoise::normalizeFromZeroToOne(float noiseVal)
+{
+    return noiseVal = (noiseVal / 2.0f) + 0.5f;
+}
+void PerlinNoise::normalizeFromZeroToOne(float* noiseVal)
+{
+    (*noiseVal) = ((*noiseVal) / 2.0f) + 0.5f;
+}
