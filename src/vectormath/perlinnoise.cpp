@@ -35,3 +35,7 @@ float PerlinNoise::dotGridGradient(int32_t x, int32_t y, float x1, float y1)
 
     return (dx * gradientX) + (dy * gradientY);
 }
+float  PerlinNoise::cubicInterpolation (float a0, float a1, float w)
+{
+    return (a1 - a0) * (3.0f - w * 2.0f) * w * w + a0;
+}
