@@ -68,6 +68,7 @@ void ChunkRenderer::init()
         }
 
         _camera.Speed = 10.0f;
+        _camera.Position = Vec3(128, 10, 128);
         _initialized = true;
     }
 }
