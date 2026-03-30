@@ -151,3 +151,28 @@ float PerlinNoise::heightCurve(float val, float heightMultiplier)
     float s = val * val;
     return (-0.348532f * val + 0.551974f * s + 0.796559f * s * val) * heightMultiplier;
 }
+Image* PerlinNoise::noiseToImage(float *noise, uint32_t mapSize, bool shouldNormalizeFromZeroToOne)
+{
+    if(noise == nullptr || mapSize == 0)
+    {
+        return nullptr;
+    }
+    Image* img = new Image(mapSize, mapSize, 3);
+    uint32_t noiseIndex = 0;
+    float pixelf = 0;
+    uint8_t pixel = 0;
+    for(uint32_t x = 0; x < mapSize; ++x)
+    {
+        for(uint32_t y = 0; y < mapSize; ++y)
+        {
+            pixelf = noise[noiseIndex++];
+            if(shouldNormalizeFromZeroToOne)
+            {
+                normalizeFromZeroToOne(&pixelf);
+            }
+            pixel = uint8_t(pixelf * 255);
+            img->setPixelColor(x, y, pixel);
+        }
+    }
+    return img;
+}
