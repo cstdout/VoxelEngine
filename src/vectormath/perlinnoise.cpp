@@ -39,3 +39,24 @@ float  PerlinNoise::cubicInterpolation (float a0, float a1, float w)
 {
     return (a1 - a0) * (3.0f - w * 2.0f) * w * w + a0;
 }
+float PerlinNoise::perlin(float x, float y)
+{
+    int32_t x0 = int32_t(x);
+    int32_t y0 = int32_t(y);
+    int32_t x1 = x0 + 1;
+    int32_t y1 = y0 + 1;
+
+    float sx = x - float(x0);
+    float sy = y - float(y0);
+
+
+    float n0 = dotGridGradient(x0, y0, x, y);
+    float n1 = dotGridGradient(x1, y0, x, y);
+    float ix0 = cubicInterpolation(n0, n1, sx);
+
+    n0 = dotGridGradient(x0, y1, x, y);
+    n1 = dotGridGradient(x1, y1, x, y);
+    float ix1 = cubicInterpolation(n0, n1, sx);
+
+    return cubicInterpolation(ix0, ix1, sy);
+}
