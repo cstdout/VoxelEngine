@@ -71,3 +71,8 @@ void ChunkRenderer::init()
         _initialized = true;
     }
 }
+void ChunkRenderer::linkUniforms()
+{
+    _shader->setUniformMatrix4fv("model", _model.valuePtr());
+    _shader->setUniform1i("ourTexture", _textureAtlas->getActiveSlot());
+}
