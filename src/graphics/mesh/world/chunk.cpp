@@ -53,7 +53,7 @@ Chunk::Chunk(float* heightMap, uint32_t size, TextureAtlas* textureAtlas, int32_
                         }
                         else if(j >= 5)
                         {
-                            if(j + 1 < uint32_t(heightMapValue))
+                            if(j + 1 < uint32_t(heightMapValue) && (j + 1) < HEIGHT)
                             {
                                 blocks[i][k][j].setType(BlockType::DIRT);
                                 ++nonTransparentBlocks;
