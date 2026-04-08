@@ -130,6 +130,17 @@ void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint3
     sandBlock->bottom("sand.png");
 
 
+    BlockTexCoords* waterBlock = new BlockTexCoords;
+    waterBlock->front("waterblock.png");
+    waterBlock->back("waterblock.png");
+
+    waterBlock->left("waterblock.png");
+    waterBlock->right("waterblock.png");
+
+    waterBlock->top("waterblock.png");
+    waterBlock->bottom("waterblock.png");
+
+
     addBlock(grassBlock);
     addBlock(dirtBlock);
     addBlock(brickBlock);
@@ -141,6 +152,7 @@ void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint3
     addBlock(redStoneLampOnBlock);
     addBlock(stoneBlock);
     addBlock(sandBlock);
+    addBlock(waterBlock);
 
     textureAtlas = new Image(atlasWidth, atlasHeight, 4);
 }

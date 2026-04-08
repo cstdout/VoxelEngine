@@ -64,9 +64,12 @@ Chunk::Chunk(float* heightMap, uint32_t size, TextureAtlas* textureAtlas, int32_
                                 ++nonTransparentBlocks;
                             }
                         }
+                    }
 
-
-
+                    if(j <= 5 && blocks[i][k][j].isAir())
+                    {
+                        blocks[i][k][j].setType(BlockType::WATER);
+                        ++nonTransparentBlocks;
                     }
                     blocks[i][k][j].translate(float(i) + float(x),
                                               float(j) + float(y),

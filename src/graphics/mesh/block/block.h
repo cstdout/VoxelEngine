@@ -17,6 +17,7 @@ enum BlockType
     RED_STONE_LAMP_ON,
     STONE,
     SAND,
+    WATER,
     AIR
 };
 
