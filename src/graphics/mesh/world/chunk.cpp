@@ -10,6 +10,10 @@ void Chunk::init()
         for(uint32_t z = 0; z < DEPTH; ++z)
         {
             blocks[x][z] = new Block[HEIGHT];
+            for(uint32_t y = 0; y < HEIGHT; ++y)
+            {
+                blocks[x][z][y].translate(float(x), float(y), float(z));
+            }
         }
     }
 }
@@ -18,67 +22,20 @@ Chunk::Chunk()
 {
     init();
 }
-
-Chunk::Chunk(float* heightMap, uint32_t size, TextureAtlas* textureAtlas, int32_t x, int32_t y, int32_t z)
+void Chunk::translate(float x, float y, float z)
 {
-    if(size >= getAreaInBlocks())
+    for(uint32_t i = 0; i < WIDTH; ++i)
     {
-        init();
-        this->heightMap = heightMap;
-        this->mapSize = size;
-        this->textureAtlas = textureAtlas;
-        this->_x = x;
-        this->_y = y;
-        this->_z = z;
-        uint32_t heightMapIndex = 0;
-        float heightMapValue;
-
-        for(uint32_t i = 0; i < WIDTH; ++i)
+        for(uint32_t k = 0; k < DEPTH; ++k)
         {
-            for(uint32_t k = 0; k < DEPTH; ++k)
+            for(uint32_t j = 0; j < HEIGHT; ++j)
             {
-                heightMapValue = heightMap[heightMapIndex++];
-                for(uint32_t j = 0; j < HEIGHT; ++j)
-                {
-                    if(j == 0)
-                    {
-                        blocks[i][k][j].setType(BlockType::SAND);
-                        ++nonTransparentBlocks;
-                    }
-                    else if(j < heightMapValue)
-                    {
-                        if(j < 5)
-                        {
-                            blocks[i][k][j].setType(BlockType::STONE);
-                            ++nonTransparentBlocks;
-                        }
-                        else if(j >= 5)
-                        {
-                            if(j + 1 < uint32_t(heightMapValue) && (j + 1) < HEIGHT)
-                            {
-                                blocks[i][k][j].setType(BlockType::DIRT);
-                                ++nonTransparentBlocks;
-                            }
-                            else if(blocks[i][k][j - 1].getType() == BlockType::DIRT)
-                            {
-                                blocks[i][k][j].setType(BlockType::GRASS);
-                                ++nonTransparentBlocks;
-                            }
-                        }
-                    }
-
-                    if(j <= 5 && blocks[i][k][j].isAir())
-                    {
-                        blocks[i][k][j].setType(BlockType::WATER);
-                        ++nonTransparentBlocks;
-                    }
-                    blocks[i][k][j].translate(float(i) + float(x),
-                                              float(j) + float(y),
-                                              float(k) + float(z));
-                }
+                blocks[i][k][j].translate(x, y, z);
             }
         }
     }
+    _x += int32_t(x);
+    _z += int32_t(z);
 }
 Chunk::~Chunk()
 {
