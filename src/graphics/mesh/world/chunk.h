@@ -26,23 +26,36 @@ public:
           int32_t y = 0,
           int32_t z = 0);
     ~Chunk();
-//    Block blocks[WIDTH][DEPTH][HEIGHT];
+
     Block*** blocks = nullptr;
-    Mesh* buildMesh() const;
+    Mesh* buildMesh();
     TextureAtlas* textureAtlas = nullptr;
+
     void addFaceMesh(const Block* block,
-                     int8_t faceType,
-                     float* outVertices,
-                     float* outUVs,
-                     uint32_t* outIndices,
-                     uint32_t vertexIndex = 0) const;
+                int8_t faceType,
+                std::vector<float>& vertices,
+                std::vector<float>& uvs,
+                std::vector<uint32_t>& indices,
+                uint32_t vertexIndex = 0) const;
+    void translate(float x, float y, float z);
+    int32_t getX() const
+    {
+        return _x;
+    }
+    int32_t getZ() const
+    {
+        return _z;
+    }
+    std::vector<float> vertices;
+    std::vector<uint32_t> indices;
+    std::vector<float> uvs;
 private:
     void init();
     float* heightMap = nullptr;
     uint32_t mapSize = 0;
-    int32_t x = 0;
-    int32_t y = 0;
-    int32_t z = 0;
+    int32_t _x = 0;
+    int32_t _y = 0;
+    int32_t _z = 0;
     uint32_t nonTransparentBlocks = 0;
 };
 

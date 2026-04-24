@@ -1,8 +1,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include "src/graphics/mesh/block/blockface.h"
-
+#include <cstdint>
 
 enum BlockType
 {
@@ -20,7 +19,15 @@ enum BlockType
     WATER,
     AIR
 };
-
+enum FaceType
+{
+    FRONT_FACE = 0,
+    BACK_FACE,
+    LEFT_FACE,
+    RIGHT_FACE,
+    TOP_FACE,
+    BOTTOM_FACE
+};
 class Block
 {
 public:
@@ -28,33 +35,76 @@ public:
     Block();
     Block(uint32_t blockType);
     Block(uint32_t blockType, float x, float y, float z);
-    void translate(float x, float y, float z);
 
-    BlockFace front{FaceType::FRONT_FACE};
-    BlockFace back{FaceType::BACK_FACE};
-    BlockFace left{FaceType::LEFT_FACE};
-    BlockFace right{FaceType::RIGHT_FACE};
-    BlockFace top{FaceType::TOP_FACE};
-    BlockFace bottom{FaceType::BOTTOM_FACE};
+    static const uint32_t VERTEX_ARRAY_LENGTH = 12;
+
+    static inline const float FRONT_FACE[] =
+    {
+        -0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f
+    };
+
+    static inline const float BACK_FACE[] =
+    {
+        0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f
+    };
+
+    static inline const float LEFT_FACE[] =
+    {
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f,  0.5f
+    };
+    static inline const float RIGHT_FACE[] =
+    {
+        0.5f, -0.5f,  0.5f,
+        0.5f, -0.5f, -0.5f,
+        0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f, -0.5f
+    };
+    static inline const float TOP_FACE[] =
+    {
+        -0.5f,  0.5f,  0.5f,
+        0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        0.5f,  0.5f,  -0.5f
+    };
+    static inline const float BOTTOM_FACE[] =
+    {
+        -0.5f,  -0.5f,  0.5f,
+        0.5f,  -0.5f,  0.5f,
+        -0.5f,  -0.5f, -0.5f,
+        0.5f,  -0.5f,  -0.5f
+    };
 
     static const uint8_t FACE_COUNT = 6;
-    BlockFace* faces[FACE_COUNT] = {};
+    static inline const float* faces[FACE_COUNT] =
+    {
+        FRONT_FACE,
+        BACK_FACE,
+        LEFT_FACE,
+        RIGHT_FACE,
+        TOP_FACE,
+        BOTTOM_FACE
+    };
     void setType(uint32_t blockType);
-    uint32_t getType() const
-    {
-        return _blockType;
-    }
-    bool isAir() const
-    {
-        return _blockType == AIR;
-    }
-    bool isNotAir() const
-    {
-        return _blockType != AIR;
-    }
+    uint32_t getType() const;
+    bool isAir() const;
+    bool isNotAir() const;
+    void translate(float x, float y, float z);
+
+
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
 private:
     uint32_t _blockType = AIR;
-    void init();
 };
 
 #endif // BLOCK_H
