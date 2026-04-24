@@ -24,7 +24,7 @@ int main()
     TextureAtlas texAtlas("assets/textures/blocks/", 256, 256);
     texAtlas.loadFaceTextures();
     texAtlas.buildUVs();
-    texAtlas.textureAtlas->save("atlas.png", Image::PNG);
+//    texAtlas.textureAtlas->save("atlas.png", Image::PNG);
 
 
     TextureConfig config;
