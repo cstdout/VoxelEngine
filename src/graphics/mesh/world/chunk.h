@@ -50,6 +50,11 @@ public:
     std::vector<float> vertices;
     std::vector<uint32_t> indices;
     std::vector<float> uvs;
+
+    Chunk* frontNeighbour = nullptr;
+    Chunk* backNeighbour = nullptr;
+    Chunk* leftNeighbour = nullptr;
+    Chunk* rightNeighbour = nullptr;
 private:
     void init();
     float* heightMap = nullptr;
@@ -58,6 +63,55 @@ private:
     int32_t _y = 0;
     int32_t _z = 0;
     uint32_t nonTransparentBlocks = 0;
+
+    bool farRightBlockOfLeftNeighbourIsAir(uint32_t localZ, uint32_t localY) const
+       {
+           if(this->leftNeighbour == nullptr)
+           {
+               return false;
+           }
+           if(this->leftNeighbour->blocks == nullptr)
+           {
+               return false;
+           }
+           return this->leftNeighbour->blocks[WIDTH - 1][localZ][localY].isAir();
+       }
+       bool farLeftBlockOfRightNeighbourIsAir(uint32_t localZ, uint32_t localY) const
+       {
+           if(this->rightNeighbour == nullptr)
+           {
+               return false;
+           }
+           if(this->rightNeighbour->blocks == nullptr)
+           {
+               return false;
+           }
+           return this->rightNeighbour->blocks[0][localZ][localY].isAir();
+       }
+       bool farFrontBlockOfBackNeighbourIsAir(uint32_t localX, uint32_t localY) const
+       {
+           if(this->backNeighbour == nullptr)
+           {
+               return false;
+           }
+           if(this->backNeighbour->blocks == nullptr)
+           {
+               return false;
+           }
+           return this->backNeighbour->blocks[localX][0][localY].isAir();
+       }
+       bool farBackBlockOfFrontNeighbourIsAir(uint32_t localX, uint32_t localY) const
+       {
+           if(this->frontNeighbour == nullptr)
+           {
+               return false;
+           }
+           if(this->frontNeighbour->blocks == nullptr)
+           {
+               return false;
+           }
+           return this->frontNeighbour->blocks[localX][DEPTH - 1][localY].isAir();
+       }
 };
 
 #endif // CHUNK_H

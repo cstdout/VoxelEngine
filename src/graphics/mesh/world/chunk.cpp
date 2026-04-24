@@ -189,56 +189,55 @@ Mesh* Chunk::buildMesh()
                 blockType = blocks[i][k][j].getType();
                 if(blocks[i][k][j].isNotAir())
                 {
-                    if(((i == 0)) || (i > 0 && blocks[i - 1][k][j].isAir()))
+                    if(((i == 0) && farRightBlockOfLeftNeighbourIsAir(k, j)) || (i > 0 && blocks[i - 1][k][j].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], LEFT_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], LEFT_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
-                    if((i == (WIDTH - 1)) || ((i < WIDTH - 1) && blocks[i + 1][k][j].isAir()))
+                    if((i == (WIDTH - 1) && farLeftBlockOfRightNeighbourIsAir(k, j)) || ((i < WIDTH - 1) && blocks[i + 1][k][j].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], RIGHT_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], RIGHT_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
                     if((j == (HEIGHT - 1)) || ((j < HEIGHT - 1) && blocks[i][k][j + 1].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], TOP_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], TOP_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
                     if((j == 0) || ((j > 0) && blocks[i][k][j - 1].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], BOTTOM_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], BOTTOM_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
-                    if((k == (DEPTH - 1)) || ((k < DEPTH - 1) && blocks[i][k + 1][j].isAir()))
+                    if((k == (DEPTH - 1) && farFrontBlockOfBackNeighbourIsAir(i, j)) || ((k < DEPTH - 1) && blocks[i][k + 1][j].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], FRONT_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], FRONT_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
-                    if(((k == 0)) || ((k > 0) && blocks[i][k - 1][j].isAir()))
+                    if(((k == 0) && farBackBlockOfFrontNeighbourIsAir(i, j)) || ((k > 0) && blocks[i][k - 1][j].isAir()))
                     {
-                        addFaceMesh(&blocks[i][k][j], BACK_FACE, vertices, uvs, indices, vertexIndex);
-                        vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
-                        uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
-                        idx += 6;
-                        vertexIndex += 4;
+                       addFaceMesh(&blocks[i][k][j], BACK_FACE, vertices, uvs, indices, vertexIndex);
+                       vertexCoordinateIndex += VERTEX_ARRAY_LENGTH;
+                       uvIndex += UV_TEX_COORDS_ARRAY_LENGTH;
+                       idx += 6;
+                       vertexIndex += 4;
                     }
                 }
-
             }
         }
     }

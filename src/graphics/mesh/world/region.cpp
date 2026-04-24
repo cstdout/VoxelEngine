@@ -22,6 +22,32 @@ Region::Region()
         }
     }
 
+    for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
+    {
+        for(uint32_t k = 0; k < DEPTH_IN_CHUNKS; ++k)
+        {
+            for(uint32_t j = 0; j < HEIGHT_IN_CHUNKS; ++j)
+            {
+                if(k < (DEPTH_IN_CHUNKS - 1))
+                {
+                    chunks[i][k][j].backNeighbour = &chunks[i][k + 1][j];
+                }
+                if(k > 0)
+                {
+                    chunks[i][k][j].frontNeighbour = &chunks[i][k - 1][j];
+                }
+                if(i < (WIDTH_IN_CHUNKS - 1))
+                {
+                    chunks[i][k][j].rightNeighbour = &chunks[i + 1][k][j];
+                }
+                if(i > 0)
+                {
+                    chunks[i][k][j].leftNeighbour = &chunks[i - 1][k][j];
+                }
+            }
+        }
+    }
+
     meshes = new Mesh*[getAreaInChunks()];
 }
 uint32_t Region::getTotalBlockCount()
