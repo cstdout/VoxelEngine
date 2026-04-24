@@ -8,14 +8,14 @@
 
 int main()
 {
-    uint32_t mapSize = Chunk::WIDTH;
+    uint32_t mapSize = Region::getAreaInBlocks();
 
     PerlinNoiseConfig noiseConfig;
     noiseConfig.octaves = 12;
     noiseConfig.offsetX = 0;
     noiseConfig.seed = 0;
     noiseConfig.heightMultiplier = 128;
-    PerlinNoise perlinNoise(mapSize);
+    PerlinNoise perlinNoise(sqrt(mapSize));
     perlinNoise.generateNoise(noiseConfig);
 //    Image* img = PerlinNoise::noiseToImage(perlinNoise.noise, perlinNoise.getMapSize());
 //    img->save("perlinNoise.png", Image::IMG_FORMATS::PNG);
