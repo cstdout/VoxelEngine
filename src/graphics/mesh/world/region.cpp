@@ -39,6 +39,17 @@ uint32_t Region::getAreaInChunks()
 {
     return WIDTH_IN_CHUNKS * DEPTH_IN_CHUNKS;
 }
+void Region::buildMeshes()
+{
+    uint32_t index = 0;
+    for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
+    {
+        for(uint32_t k = 0; k < DEPTH_IN_CHUNKS; ++k)
+        {
+            meshes[index++] = chunks[i][k][0].buildMesh();
+        }
+    }
+}
 Region::~Region()
 {
     for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
