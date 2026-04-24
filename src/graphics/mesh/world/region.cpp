@@ -1,4 +1,5 @@
 #include "region.h"
+#include "slice.h"
 
 Region::Region()
 {
@@ -38,6 +39,32 @@ uint32_t Region::getAreaInBlocks()
 uint32_t Region::getAreaInChunks()
 {
     return WIDTH_IN_CHUNKS * DEPTH_IN_CHUNKS;
+}
+void Region::applyHeightMap(float *heightMap, uint32_t mapSize, TextureAtlas* textureAtlas)
+{
+    if(mapSize >= getAreaInBlocks())
+    {
+        uint32_t chunkNum = 0;
+        for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
+        {
+            for(uint32_t k = 0; k < DEPTH_IN_CHUNKS; ++k)
+            {
+                uint32_t resultSize;
+                float* slicedHeightMap = slice(heightMap,
+                                               mapSize,
+                                               i * Chunk::WIDTH,
+                                               (i + 1) * Chunk::WIDTH,
+                                               k * Chunk::DEPTH,
+                                               (k + 1) * Chunk::DEPTH,
+                                               &resultSize);
+                for(uint32_t j = 0; j < HEIGHT_IN_CHUNKS; ++j)
+                {
+                    chunks[i][k][j].applyHeightMap(slicedHeightMap, resultSize, textureAtlas);
+                }
+                delete [] slicedHeightMap;
+            }
+        }
+    }
 }
 void Region::buildMeshes()
 {
