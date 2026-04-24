@@ -10,7 +10,7 @@ public:
     static const uint32_t WIDTH = 256;
     static const uint32_t HEIGHT = 32;
     static const uint32_t DEPTH = 256;
-    static uint32_t getBlockTotalCount()
+    static uint32_t getTotalBlockCount()
     {
         return WIDTH * HEIGHT * DEPTH;
     }
