@@ -28,6 +28,7 @@ public:
     ~Chunk();
 
     Block*** blocks = nullptr;
+    void applyHeightMap(float* heightMap, uint32_t mapSize, TextureAtlas* textureAtlas);
     Mesh* buildMesh();
     TextureAtlas* textureAtlas = nullptr;
 

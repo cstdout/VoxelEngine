@@ -56,6 +56,60 @@ Chunk::~Chunk()
 
     textureAtlas = nullptr;
 }
+void Chunk::applyHeightMap(float* heightMap, uint32_t mapSize, TextureAtlas* textureAtlas)
+{
+    if(mapSize >= getAreaInBlocks())
+    {
+        this->heightMap = heightMap;
+        this->mapSize = mapSize;
+        this->textureAtlas = textureAtlas;
+
+        uint32_t heightMapIndex = 0;
+        float heightMapValue;
+
+        for(uint32_t i = 0; i < WIDTH; ++i)
+        {
+            for(uint32_t k = 0; k < DEPTH; ++k)
+            {
+                heightMapValue = heightMap[heightMapIndex++];
+                for(uint32_t j = 0; j < HEIGHT; ++j)
+                {
+                    if(j == 0)
+                    {
+                        blocks[i][k][j].setType(BlockType::SAND);
+                        ++nonTransparentBlocks;
+                    }
+                    else if(j < heightMapValue)
+                    {
+                        if(j < 5)
+                        {
+                            blocks[i][k][j].setType(BlockType::STONE);
+                            ++nonTransparentBlocks;
+                        }
+                        else if(j >= 5)
+                        {
+                            if(j + 1 < uint32_t(heightMapValue) && (j + 1) < HEIGHT)
+                            {
+                                blocks[i][k][j].setType(BlockType::DIRT);
+                                ++nonTransparentBlocks;
+                            }
+                            else if(blocks[i][k][j - 1].getType() == BlockType::DIRT)
+                            {
+                                blocks[i][k][j].setType(BlockType::GRASS);
+                                ++nonTransparentBlocks;
+                            }
+                        }
+                    }
+                    if(j <= 5 && blocks[i][k][j].isAir())
+                    {
+                        blocks[i][k][j].setType(BlockType::WATER);
+                        ++nonTransparentBlocks;
+                    }
+                }
+            }
+        }
+    }
+}
 void Chunk::addFaceMesh(const Block* block,
                         int8_t faceType,
                         std::vector<float>& vertices,
