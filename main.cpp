@@ -2,8 +2,8 @@
 #include <cstdlib>
 #include "src/application.h"
 #include "src/window.h"
-#include "src/graphics/renderer/chunkrenderer.h"
-#include "src/graphics/mesh/world/chunk.h"
+#include "src/graphics/renderer/regionrenderer.h"
+#include "src/graphics/mesh/world/region.h"
 #include "src/vectormath/perlinnoise.h"
 
 int main()
@@ -33,22 +33,25 @@ int main()
     Texture tex(texAtlas.textureAtlas, config);
 
 
-    Chunk chunk(perlinNoise.noise, mapSize * mapSize, &texAtlas);
-    Mesh* mesh = chunk.buildMesh();
+    Region region;
+    region.applyHeightMap(perlinNoise.noise, mapSize, &texAtlas);
+    region.buildMeshes();
 
     const int32_t WINDOW_WIDTH = 720;
     const int32_t WINDOW_HEIGHT = 680;
 
 
-    ChunkRenderer chunkRenderer(mesh, WINDOW_WIDTH, WINDOW_HEIGHT);
-    chunkRenderer.setTextureAtlas(&tex);
+    RegionRenderer regionRenderer(nullptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+    regionRenderer.setRegion(region.meshes, region.getAreaInChunks());
+    regionRenderer.setTextureAtlas(&tex);
+    regionRenderer.setBackFaceCulling(true);
 
     Window w(WINDOW_WIDTH, WINDOW_HEIGHT, "My Window");
     w.setCursorDisabled(true);
 
     Application app;
     app.setWindow(&w);
-    app.setRenderer(&chunkRenderer);
+    app.setRenderer(&regionRenderer);
 
     app.run();
 
