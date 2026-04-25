@@ -5,8 +5,9 @@
 class Vec3
 {
 public:
+    static constexpr float _PI_F = 3.14159265358979323846f;
     static constexpr float EPS = 1e-5f;
-    static constexpr float PI_OVER_180 = M_PIf / 180.0f;
+    static constexpr float PI_OVER_180 = _PI_F / 180.0f;
     float v[3] = {0.0f, 0.0f, 0.0f};
 
     Vec3(float x = 0, float y = 0, float z = 0);
