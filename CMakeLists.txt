@@ -10,6 +10,8 @@ set(CMAKE_AUTOMOC ON)
 
 
 set(GLFW_BUILD_DOCS OFF)
+set(GLFW_BUILD_WAYLAND OFF)
+set(GLFW_BUILD_X11 ON)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/glew-2.3.1/build/cmake)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/glfw-3.4)
