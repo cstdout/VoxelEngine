@@ -51,9 +51,10 @@ int32_t Window::create()
     glfwMakeContextCurrent(_window);
 
     glewExperimental = GL_TRUE;
-    if (glewInit() != GLEW_OK)
+    int err = glewInit();
+    if (err != GLEW_OK)
     {
-        std::cerr << "Failed to initialize GLEW" << std::endl;
+        std::cerr << "Failed to initialize GLEW " << err << std::endl;
         return -1;
     }
     glViewport(0, 0, _width, _height);
