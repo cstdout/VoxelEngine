@@ -26,11 +26,13 @@ float* slice(float* array,
     uint32_t sliceSize = (rowEnd - rowStart) * (colEnd - colStart);
     float* result = new float[sliceSize];
     uint32_t resultIndex = 0;
+    uint32_t rowPos = 0;
     for(uint32_t i = rowStart; i < rowEnd; ++i)
     {
+        rowPos = i * size;
         for(uint32_t j = colStart; j < colEnd; ++j)
         {
-            result[resultIndex++] = array[i * size + j];
+            result[resultIndex++] = array[rowPos + j];
         }
     }
     *resultSize = sliceSize;
