@@ -37,12 +37,12 @@ int main()
     region.applyHeightMap(perlinNoise.noise, mapSize, &texAtlas);
     region.buildMeshes();
 
-    const int32_t WINDOW_WIDTH = 720;
-    const int32_t WINDOW_HEIGHT = 680;
+    const int32_t WINDOW_WIDTH = 856;
+    const int32_t WINDOW_HEIGHT = 482;
 
 
     RegionRenderer regionRenderer(nullptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-    regionRenderer.setRegion(region.meshes, region.getAreaInChunks());
+    regionRenderer.setRegion(&region);
     regionRenderer.setTextureAtlas(&tex);
     regionRenderer.setBackFaceCulling(true);
 
