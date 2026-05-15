@@ -122,3 +122,20 @@ void Vec3::fill(float val)
     v[1] = val;
     v[2] = val;
 }
+
+bool Vec3::isNull() const
+{
+    return (fabsf(v[0]) < EPS) && (fabsf(v[1]) < EPS) && (fabsf(v[2]) < EPS);
+}
+bool Vec3::xIsNull() const
+{
+    return (fabsf(v[0]) < EPS);
+}
+bool Vec3::yIsNull() const
+{
+    return (fabsf(v[1]) < EPS);
+}
+bool Vec3::zIsNull() const
+{
+    return (fabsf(v[2]) < EPS);
+}

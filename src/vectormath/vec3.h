@@ -38,6 +38,11 @@ public:
 
     void fill(float val);
 
+    bool isNull() const;
+    bool xIsNull() const;
+    bool yIsNull() const;
+    bool zIsNull() const;
+
 };
 
 #endif // VEC3_H
