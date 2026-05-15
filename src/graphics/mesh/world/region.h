@@ -2,6 +2,8 @@
 #define REGION_H
 
 #include "chunk.h"
+#include "src/vectormath/vec3.h"
+
 class Region
 {
 public:
@@ -18,6 +20,12 @@ public:
     static uint32_t getTotalBlockCount();
     static uint32_t getAreaInBlocks();
     static uint32_t getAreaInChunks();
+
+    Block* getBlock(uint32_t x, uint32_t y, uint32_t z) const;
+    Block* rayCast(const Vec3& start,
+                   const Vec3& dir,
+                   Vec3& norm,
+                   uint32_t maxDistance = 6) const;
 };
 
 #endif // REGION_H
