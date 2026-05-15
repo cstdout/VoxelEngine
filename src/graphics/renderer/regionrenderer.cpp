@@ -42,7 +42,7 @@ void RegionRenderer::init()
     }
     if(_shader == nullptr)
     {
-        _shader = new Shader(DEFAULT_VERTEX_SHADER, DEFAULT_TEXTURE_FRAGMENT_SHADER);
+        _shader = new Shader(DEFAULT_VERTEX_SHADER, BLOCK_TEXTURE_FRAGMENT_SHADER);
         shouldDeleteShaderInDestructor = true;
     }
     bool shaderIsValid = (_shader && _shader->compile() && _shader->isValid());
@@ -98,11 +98,13 @@ void RegionRenderer::onDraw(float delta, int32_t w, int32_t h)
 
     linkUniforms();
 
+
+
     uint32_t chunkId = 0;
     while(chunkId < _chunkCount)
     {
+        _shader->setUniform1i("isSelected", 0);
         bindChunkData(chunkId++);
-
         if(_indexBuffer > 0)
         {
             glDrawElements(_drawMode, _indexCount, GL_UNSIGNED_INT, nullptr);
@@ -111,5 +113,38 @@ void RegionRenderer::onDraw(float delta, int32_t w, int32_t h)
         {
             glDrawArrays(_drawMode, 0, _vertexCount);
         }
+
+    }
+    if(_shouldRenderCube)
+    {
+        _shader->setUniform1i("isSelected", 1);
+        _drawCube();
     }
 }
+void RegionRenderer::handleEvents(float delta)
+{
+    MeshRenderer::handleEvents(delta);
+
+    Block* block = _region->rayCast(_camera.Position, _camera.Front, _faceNorm, 6);
+    _shouldRenderCube = (block != nullptr);
+    if(_shouldRenderCube)
+    {
+        Cube::translateVertices(block->x, block->y, block->z, _selectedCube);
+    }
+}
+void RegionRenderer::_drawCube()
+{
+
+    glLineWidth(2.5f);
+
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glBufferData(GL_ARRAY_BUFFER, Cube::size * sizeof(float), _selectedCube, GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(_shader->getAttribLocation("aPos"));
+    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+    glVertexAttribPointer(_shader->getAttribLocation("aPos"), 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, Cube::indexCount * sizeof(uint32_t), Cube::indices , GL_STATIC_DRAW);
+    glDrawElements(GL_LINES, Cube::indexCount, GL_UNSIGNED_INT, nullptr);
+ }
