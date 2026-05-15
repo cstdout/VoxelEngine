@@ -186,7 +186,6 @@ Mesh* Chunk::buildMesh()
         {
             for(uint32_t j = 0; j < HEIGHT; ++j)
             {
-                blockType = blocks[i][k][j].getType();
                 if(blocks[i][k][j].isNotAir())
                 {
                     if(((i == 0) && farRightBlockOfLeftNeighbourIsAir(k, j)) || (i > 0 && blocks[i - 1][k][j].isAir()))
