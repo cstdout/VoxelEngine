@@ -59,6 +59,12 @@ bool Application::run()
     bool windowCursorDisabled = window->isCursorDisabled();
     glfwSetInputMode(window->_window, GLFW_CURSOR, windowCursorDisabled ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    int xPos = ((mode->width - window->width()) >> 1);
+    int yPos = ((mode->height - window->height()) >> 1);
+    glfwSetWindowPos(window->_window, xPos, yPos);
+
     _renderer->init();
     if(!(_renderer->isInitialized()))
     {
