@@ -126,7 +126,7 @@ void RegionRenderer::handleEvents(float delta)
 {
     MeshRenderer::handleEvents(delta);
 
-    Block* block = _region->rayCast(_camera.Position, _camera.Front, _faceNorm, _coordsOfObservingChunk, 10);
+    Block* block = _region->rayCast(_camera.Position, _camera.Front, &_prevBlock, _coordsOfObservingChunk, 10);
     _shouldRenderCube = (block != nullptr);
     if(_shouldRenderCube)
     {
@@ -134,6 +134,11 @@ void RegionRenderer::handleEvents(float delta)
         if(Events::jclicked(GLFW_MOUSE_BUTTON_LEFT))
         {
             block->setType(BlockType::AIR);
+            _region->updateChunkNeighbourhood(_coordsOfObservingChunk.x, _coordsOfObservingChunk.y, _coordsOfObservingChunk.z);
+        }
+        if(Events::jclicked(GLFW_MOUSE_BUTTON_RIGHT) && _prevBlock != nullptr)
+        {
+            _prevBlock->setType(BlockType::DIRT);
             _region->updateChunkNeighbourhood(_coordsOfObservingChunk.x, _coordsOfObservingChunk.y, _coordsOfObservingChunk.z);
         }
     }

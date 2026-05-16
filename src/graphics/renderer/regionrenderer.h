@@ -42,7 +42,7 @@ protected:
     void bindChunkData(uint32_t chunkId);
     bool _backFaceCulling = false;
 
-    Vec3 _faceNorm;
+    Block* _prevBlock = nullptr;
     float _selectedCube[Cube::size];
     void _drawCube();
     bool _shouldRenderCube = false;

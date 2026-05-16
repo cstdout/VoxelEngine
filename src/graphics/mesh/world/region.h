@@ -25,7 +25,7 @@ public:
     Block* getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoords) const;
     Block* rayCast(const Vec3& start,
                    const Vec3& dir,
-                   Vec3& norm,
+                   Block** prevBlock,
                    Vec3Uint& chunkCoords,
                    uint32_t maxDistance = 6) const;
 

@@ -149,11 +149,12 @@ Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoord
 }
 Block* Region::rayCast(const Vec3& start,
                        const Vec3& dir,
-                       Vec3& norm,
+                       Block** prevBlock,
                        Vec3Uint& chunkCoords,
                        uint32_t maxDistance) const
 {
     Block* block = nullptr;
+    *prevBlock = nullptr;
     if(dir.isNull())
     {
         return nullptr;
@@ -170,6 +171,7 @@ Block* Region::rayCast(const Vec3& start,
 
     float t = 0.5f;
     uint32_t x, y, z;
+
     while(t <= maxDistance)
     {
         x = uint32_t(startX + t * dirX + 0.5f);
@@ -179,6 +181,10 @@ Block* Region::rayCast(const Vec3& start,
         if(block != nullptr && block->isNotAir())
         {
             return block;
+        }
+        else
+        {
+            *prevBlock = block;
         }
         t += 0.5f;
     }
