@@ -1,5 +1,5 @@
 #include "regionrenderer.h"
-
+#include "src/events.h"
 RegionRenderer::RegionRenderer(const Mesh* mesh, int32_t viewportWidth, int32_t viewportHeight) : MeshRenderer (mesh, viewportWidth, viewportHeight)
 {
 }
@@ -14,25 +14,28 @@ RegionRenderer::~RegionRenderer()
 void RegionRenderer::bindChunkData(uint32_t chunkId)
 {
     Mesh* mesh = _chunks[chunkId];
+    if(mesh != nullptr)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, mesh->size * sizeof(float), mesh->vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->size * sizeof(float), mesh->vertices, GL_STATIC_DRAW);
 
+        glEnableVertexAttribArray(_shader->getAttribLocation("aPos"));
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glVertexAttribPointer(_shader->getAttribLocation("aPos"), 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-    glEnableVertexAttribArray(_shader->getAttribLocation("aPos"));
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glVertexAttribPointer(_shader->getAttribLocation("aPos"), 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        glBindBuffer(GL_ARRAY_BUFFER, _texCoordBuffer);
+        glBufferData(GL_ARRAY_BUFFER, mesh->uvSize * sizeof(float), mesh->uvs, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ARRAY_BUFFER, _texCoordBuffer);
-    glBufferData(GL_ARRAY_BUFFER, mesh->uvSize * sizeof(float), mesh->uvs, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(_shader->getAttribLocation("aTexCoord"));
+        glBindBuffer(GL_ARRAY_BUFFER, _texCoordBuffer);
+        glVertexAttribPointer(_shader->getAttribLocation("aTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-    glEnableVertexAttribArray(_shader->getAttribLocation("aTexCoord"));
-    glBindBuffer(GL_ARRAY_BUFFER, _texCoordBuffer);
-    glVertexAttribPointer(_shader->getAttribLocation("aTexCoord"), 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indexCount * sizeof(uint32_t),  mesh->indices , GL_STATIC_DRAW);
+        _indexCount = mesh->indexCount;
+    }
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indexCount * sizeof(uint32_t),  mesh->indices , GL_STATIC_DRAW);
-    _indexCount = mesh->indexCount;
 }
 void RegionRenderer::init()
 {
@@ -98,8 +101,6 @@ void RegionRenderer::onDraw(float delta, int32_t w, int32_t h)
 
     linkUniforms();
 
-
-
     uint32_t chunkId = 0;
     while(chunkId < _chunkCount)
     {
@@ -125,11 +126,16 @@ void RegionRenderer::handleEvents(float delta)
 {
     MeshRenderer::handleEvents(delta);
 
-    Block* block = _region->rayCast(_camera.Position, _camera.Front, _faceNorm, 6);
+    Block* block = _region->rayCast(_camera.Position, _camera.Front, _faceNorm, _coordsOfObservingChunk, 10);
     _shouldRenderCube = (block != nullptr);
     if(_shouldRenderCube)
     {
         Cube::translateVertices(block->x, block->y, block->z, _selectedCube);
+        if(Events::jclicked(GLFW_MOUSE_BUTTON_LEFT))
+        {
+            block->setType(BlockType::AIR);
+            _region->updateChunkNeighbourhood(_coordsOfObservingChunk.x, _coordsOfObservingChunk.y, _coordsOfObservingChunk.z);
+        }
     }
 }
 void RegionRenderer::_drawCube()
@@ -147,4 +153,5 @@ void RegionRenderer::_drawCube()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, Cube::indexCount * sizeof(uint32_t), Cube::indices , GL_STATIC_DRAW);
     glDrawElements(GL_LINES, Cube::indexCount, GL_UNSIGNED_INT, nullptr);
+
  }

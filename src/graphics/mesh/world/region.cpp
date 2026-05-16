@@ -50,6 +50,14 @@ Region::Region()
     }
 
     meshes = new Mesh*[getAreaInChunks()];
+    uint32_t index = 0;
+    for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
+    {
+        for(uint32_t k = 0; k < DEPTH_IN_CHUNKS; ++k)
+        {
+            meshes[index++] = chunks[i][k][0].mesh;
+        }
+    }
 }
 uint32_t Region::getTotalBlockCount()
 {
@@ -95,12 +103,11 @@ void Region::applyHeightMap(float *heightMap, uint32_t mapSize, TextureAtlas* te
 }
 void Region::buildMeshes()
 {
-    uint32_t index = 0;
     for(uint32_t i = 0; i < WIDTH_IN_CHUNKS; ++i)
     {
         for(uint32_t k = 0; k < DEPTH_IN_CHUNKS; ++k)
         {
-            meshes[index++] = chunks[i][k][0].buildMesh();
+            chunks[i][k][0].buildMesh();
         }
     }
 }
@@ -117,7 +124,7 @@ Region::~Region()
     delete [] chunks;
     chunks = nullptr;
 }
-Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z) const
+Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoords) const
 {
     uint32_t chunkX = x / Chunk::WIDTH;
     uint32_t chunkY = y / Chunk::HEIGHT;
@@ -135,11 +142,15 @@ Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z) const
     {
         return nullptr;
     }
+    chunkCoords.x = chunkX;
+    chunkCoords.y = chunkY;
+    chunkCoords.z = chunkZ;
     return &(chunks[chunkX][chunkZ][chunkY].blocks[blockX][blockZ][blockY]);
 }
 Block* Region::rayCast(const Vec3& start,
                        const Vec3& dir,
                        Vec3& norm,
+                       Vec3Uint& chunkCoords,
                        uint32_t maxDistance) const
 {
     Block* block = nullptr;
@@ -153,9 +164,9 @@ Block* Region::rayCast(const Vec3& start,
     float startY = start.v[1];
     float startZ = start.v[2];
 
-    float dirX = 2 * dir.v[0];
-    float dirY = 2 * dir.v[1];
-    float dirZ = 2 * dir.v[2];
+    float dirX = dir.v[0];
+    float dirY = dir.v[1];
+    float dirZ = dir.v[2];
 
     float t = 0.5f;
     uint32_t x, y, z;
@@ -164,7 +175,7 @@ Block* Region::rayCast(const Vec3& start,
         x = uint32_t(startX + t * dirX + 0.5f);
         y = uint32_t(startY + t * dirY + 0.5f);
         z = uint32_t(startZ + t * dirZ + 0.5f);
-        block = getBlock(x, y, z);
+        block = getBlock(x, y, z, chunkCoords);
         if(block != nullptr && block->isNotAir())
         {
             return block;
@@ -172,4 +183,25 @@ Block* Region::rayCast(const Vec3& start,
         t += 0.5f;
     }
     return nullptr;
+}
+void Region::updateChunkNeighbourhood(uint32_t chunkX, uint32_t chunkY, uint32_t chunkZ)
+{
+    Chunk* chunk = &chunks[chunkX][chunkZ][chunkY];
+    chunk->buildMesh();
+    if(chunk->frontNeighbour != nullptr)
+    {
+        chunk->frontNeighbour->buildMesh();
+    }
+    if(chunk->backNeighbour != nullptr)
+    {
+        chunk->backNeighbour->buildMesh();
+    }
+    if(chunk->leftNeighbour != nullptr)
+    {
+        chunk->leftNeighbour->buildMesh();
+    }
+    if(chunk->rightNeighbour != nullptr)
+    {
+        chunk->rightNeighbour->buildMesh();
+    }
 }

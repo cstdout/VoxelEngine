@@ -6,6 +6,7 @@
 #include "src/graphics/mesh/world/region.h"
 #include "src/graphics/mesh/cube.h"
 
+
 class RegionRenderer : public MeshRenderer
 {
 public:
@@ -27,6 +28,8 @@ public:
         this->_backFaceCulling = flag;
     }
     void handleEvents(float delta);
+
+
 protected:
     Texture* _textureAtlas = nullptr;
     uint32_t _texCoordBuffer = 0;
@@ -43,6 +46,8 @@ protected:
     float _selectedCube[Cube::size];
     void _drawCube();
     bool _shouldRenderCube = false;
+    Vec3Uint _coordsOfObservingChunk;
+
 
     static constexpr char BLOCK_TEXTURE_FRAGMENT_SHADER[] =
         "#version 330 core\n"

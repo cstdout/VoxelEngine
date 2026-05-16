@@ -3,6 +3,7 @@
 
 #include "chunk.h"
 #include "src/vectormath/vec3.h"
+#include "src/vectormath/vec3uint.h"
 
 class Region
 {
@@ -21,11 +22,14 @@ public:
     static uint32_t getAreaInBlocks();
     static uint32_t getAreaInChunks();
 
-    Block* getBlock(uint32_t x, uint32_t y, uint32_t z) const;
+    Block* getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoords) const;
     Block* rayCast(const Vec3& start,
                    const Vec3& dir,
                    Vec3& norm,
+                   Vec3Uint& chunkCoords,
                    uint32_t maxDistance = 6) const;
+
+    void updateChunkNeighbourhood(uint32_t chunkX, uint32_t chunkY, uint32_t chunkZ);
 };
 
 #endif // REGION_H
