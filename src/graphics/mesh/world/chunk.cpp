@@ -16,6 +16,7 @@ void Chunk::init()
             }
         }
     }
+    mesh = new Mesh;
 }
 
 Chunk::Chunk()
@@ -55,6 +56,10 @@ Chunk::~Chunk()
     mapSize = 0;
 
     textureAtlas = nullptr;
+
+    delete mesh;
+    mesh = nullptr;
+
 }
 void Chunk::applyHeightMap(float* heightMap, uint32_t mapSize, TextureAtlas* textureAtlas)
 {
@@ -132,15 +137,28 @@ void Chunk::addFaceMesh(const Block* block,
         uvs.push_back(face->uvTexCoords[u + 1]);
 
     }
+    // For correct face culling
+    if(faceType == BOTTOM_FACE)
+    {
+        indices.push_back(vertexIndex);
+        indices.push_back(vertexIndex + 2);
+        indices.push_back(vertexIndex + 1);
+        indices.push_back(vertexIndex + 1);
+        indices.push_back(vertexIndex + 2);
+        indices.push_back(vertexIndex + 3);
+    }
+    else
+    {
+        indices.push_back(vertexIndex);
+        indices.push_back(vertexIndex + 1);
+        indices.push_back(vertexIndex + 2);
+        indices.push_back(vertexIndex + 1);
+        indices.push_back(vertexIndex + 3);
+        indices.push_back(vertexIndex + 2);
+    }
 
-    indices.push_back(vertexIndex);
-    indices.push_back(vertexIndex + 1);
-    indices.push_back(vertexIndex + 2);
-    indices.push_back(vertexIndex + 1);
-    indices.push_back(vertexIndex + 3);
-    indices.push_back(vertexIndex + 2);
 }
-Mesh* Chunk::buildMesh()
+void Chunk::buildMesh()
 {
     if(!(vertices.empty()))
     {
@@ -155,7 +173,7 @@ Mesh* Chunk::buildMesh()
         indices.clear();
     }
 
-    Mesh* mesh = new Mesh;
+//    Mesh* mesh = new Mesh;
     uint32_t maxPossibleSize = nonTransparentBlocks * Block::FACE_COUNT * Block::VERTEX_ARRAY_LENGTH;
     vertices.reserve(maxPossibleSize / 3);
 
@@ -173,8 +191,6 @@ Mesh* Chunk::buildMesh()
     uint32_t vertexIndex = 0;
     uint32_t uvIndex = 0;
     uint32_t idx = 0;
-
-    uint32_t blockType = 0;
 
     const uint32_t VERTEX_ARRAY_LENGTH = Block::VERTEX_ARRAY_LENGTH;
     const uint32_t UV_TEX_COORDS_ARRAY_LENGTH = BlockFaceTexCoords::UV_TEX_COORDS_ARRAY_LENGTH;
@@ -244,5 +260,4 @@ Mesh* Chunk::buildMesh()
     mesh->size = vertexCoordinateIndex;
     mesh->uvSize = uvIndex;
     mesh->indexCount = idx;
-    return mesh;
 }

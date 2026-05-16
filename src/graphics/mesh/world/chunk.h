@@ -29,7 +29,7 @@ public:
 
     Block*** blocks = nullptr;
     void applyHeightMap(float* heightMap, uint32_t mapSize, TextureAtlas* textureAtlas);
-    Mesh* buildMesh();
+    void buildMesh();
     TextureAtlas* textureAtlas = nullptr;
 
     void addFaceMesh(const Block* block,
@@ -55,6 +55,8 @@ public:
     Chunk* backNeighbour = nullptr;
     Chunk* leftNeighbour = nullptr;
     Chunk* rightNeighbour = nullptr;
+
+    Mesh* mesh = nullptr;
 private:
     void init();
     float* heightMap = nullptr;
