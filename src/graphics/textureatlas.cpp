@@ -109,15 +109,15 @@ void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint3
     dirtBlock->bottom("dirt.png");
 
 
-    BlockTexCoords* leavesBlock = new BlockTexCoords;
-    leavesBlock->front("oak_leaves.png");
-    leavesBlock->back("oak_leaves.png");
+//    BlockTexCoords* leavesBlock = new BlockTexCoords;
+//    leavesBlock->front("oak_leaves.png");
+//    leavesBlock->back("oak_leaves.png");
 
-    leavesBlock->left("oak_leaves.png");
-    leavesBlock->right("oak_leaves.png");
+//    leavesBlock->left("oak_leaves.png");
+//    leavesBlock->right("oak_leaves.png");
 
-    leavesBlock->top("oak_leaves.png");
-    leavesBlock->bottom("oak_leaves.png");
+//    leavesBlock->top("oak_leaves.png");
+//    leavesBlock->bottom("oak_leaves.png");
 
     BlockTexCoords* sandBlock = new BlockTexCoords;
     sandBlock->front("sand.png");
@@ -147,7 +147,7 @@ void TextureAtlas::init(const std::string& assetsDir, uint32_t atlasWidth, uint3
     addBlock(glassBlock);
     addBlock(oakBlock);
     addBlock(oakPlanks);
-    addBlock(leavesBlock);
+//    addBlock(leavesBlock);
     addBlock(missingBlock);
     addBlock(redStoneLampOnBlock);
     addBlock(stoneBlock);

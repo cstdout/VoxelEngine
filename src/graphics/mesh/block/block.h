@@ -11,7 +11,7 @@ enum BlockType
     GLASS,
     OAK,
     OAK_PLANKS,
-    OAK_LEAVES,
+//    OAK_LEAVES,
     MISSING,
     RED_STONE_LAMP_ON,
     STONE,
@@ -103,6 +103,8 @@ public:
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
+
+    bool isSolid() const;
 private:
     uint32_t _blockType = AIR;
 };
