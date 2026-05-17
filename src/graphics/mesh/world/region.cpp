@@ -124,6 +124,26 @@ Region::~Region()
     delete [] chunks;
     chunks = nullptr;
 }
+Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z) const
+{
+    uint32_t chunkX = x / Chunk::WIDTH;
+    uint32_t chunkY = y / Chunk::HEIGHT;
+    uint32_t chunkZ = z / Chunk::DEPTH;
+    if(chunkX >= WIDTH_IN_CHUNKS || chunkY >= HEIGHT_IN_CHUNKS || chunkZ >= DEPTH_IN_CHUNKS)
+    {
+        return nullptr;
+    }
+
+    uint32_t blockX = x - chunkX * Chunk::WIDTH;
+    uint32_t blockY = y - chunkY * Chunk::HEIGHT;
+    uint32_t blockZ = z - chunkZ * Chunk::DEPTH;
+
+    if(blockX >= Chunk::WIDTH || blockY >= Chunk::HEIGHT || blockZ >= Chunk::DEPTH)
+    {
+        return nullptr;
+    }
+    return &(chunks[chunkX][chunkZ][chunkY].blocks[blockX][blockZ][blockY]);
+}
 Block* Region::getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoords) const
 {
     uint32_t chunkX = x / Chunk::WIDTH;

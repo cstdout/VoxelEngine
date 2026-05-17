@@ -32,6 +32,7 @@ public:
     Mat4* viewMatrix = nullptr;
 
     void onKeyboard(Camera_Movement direction, float deltaTime);
+    void onKeyboard(Camera_Movement direction, float deltaTime, Vec3& newPosition);
     void onMouse(float xoffset, float yoffset, bool constrainPitch = true);
 
     void setViewMatrix(Mat4* viewMatrix);

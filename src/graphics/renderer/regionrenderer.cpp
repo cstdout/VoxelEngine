@@ -1,5 +1,6 @@
 #include "regionrenderer.h"
 #include "src/events.h"
+
 RegionRenderer::RegionRenderer(const Mesh* mesh, int32_t viewportWidth, int32_t viewportHeight) : MeshRenderer (mesh, viewportWidth, viewportHeight)
 {
 }
@@ -77,7 +78,7 @@ void RegionRenderer::init()
         initModel();
         initCamera();
 
-        _camera.Speed = 20.0f;
+        _camera.Speed = 8.0f;
         _camera.Position = Vec3(128, 10, 128);
         _initialized = true;
     }
@@ -124,7 +125,45 @@ void RegionRenderer::onDraw(float delta, int32_t w, int32_t h)
 }
 void RegionRenderer::handleEvents(float delta)
 {
-    MeshRenderer::handleEvents(delta);
+    _isMoving = false;
+    if(Events::pressed(GLFW_KEY_W))
+    {
+        _camera.onKeyboard(FORWARD, delta, _cameraTestPosition);
+        if(!_collisionDetected())
+        {
+            _camera.Position = _cameraTestPosition;
+            _isMoving = true;
+        }
+
+    }
+    if(Events::pressed(GLFW_KEY_S))
+    {
+        _camera.onKeyboard(BACKWARD, delta, _cameraTestPosition);
+        if(!_collisionDetected())
+        {
+            _camera.Position = _cameraTestPosition;
+            _isMoving = true;
+        }
+    }
+    if(Events::pressed(GLFW_KEY_A))
+    {
+        _camera.onKeyboard(LEFT, delta, _cameraTestPosition);
+        if(!_collisionDetected())
+        {
+            _camera.Position = _cameraTestPosition;
+            _isMoving = true;
+        }
+    }
+    if(Events::pressed(GLFW_KEY_D))
+    {
+        _camera.onKeyboard(RIGHT, delta, _cameraTestPosition);
+        if(!_collisionDetected())
+        {
+            _camera.Position = _cameraTestPosition;
+            _isMoving = true;
+        }
+    }
+    _camera.onMouse(float(Events::deltaX), -float(Events::deltaY));
 
     Block* block = _region->rayCast(_camera.Position, _camera.Front, &_prevBlock, _coordsOfObservingChunk, 10);
     _shouldRenderCube = (block != nullptr);
@@ -142,6 +181,7 @@ void RegionRenderer::handleEvents(float delta)
             _region->updateChunkNeighbourhood(_coordsOfObservingChunk.x, _coordsOfObservingChunk.y, _coordsOfObservingChunk.z);
         }
     }
+
 }
 void RegionRenderer::_drawCube()
 {
@@ -159,4 +199,48 @@ void RegionRenderer::_drawCube()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, Cube::indexCount * sizeof(uint32_t), Cube::indices , GL_STATIC_DRAW);
     glDrawElements(GL_LINES, Cube::indexCount, GL_UNSIGNED_INT, nullptr);
 
- }
+}
+bool RegionRenderer::_collisionDetected()
+{
+    bool detected = false;
+    float cameraX = _cameraTestPosition.v[0];
+    float cameraY = _cameraTestPosition.v[1];
+    float cameraZ = _cameraTestPosition.v[2];
+
+    float dirX = _camera.Front.v[0];
+    float dirY = _camera.Front.v[1];
+    float dirZ = _camera.Front.v[2];
+
+    float stepX = (dirX >= Vec3::EPS ? 0.5f : -0.5f);
+    float stepY = (dirY >= Vec3::EPS ? 1.0f : -1.0f);
+    float stepZ = (dirZ >= Vec3::EPS ? 0.5f : -0.5f);
+//    _playerBoundingBox.translate(cameraX, cameraY, cameraZ);
+    if(fabsf(cameraX) > 1.0f && fabsf(cameraY) > 2.0f && fabsf(cameraZ) > 1.0f)
+    {
+//        Block* block = _region->getBlock(cameraX, cameraY + stepY, cameraZ);
+//        detected = (block != nullptr && block->isSolid());
+//        if(detected)
+//        {
+////            std::cout << "Y collision" << std::endl;
+//            return true;
+//        }
+
+        Block* block = _region->getBlock(cameraX, cameraY, cameraZ);
+        detected = (block != nullptr && block->isSolid());
+        if(detected)
+        {
+//            std::cout << "X collision" << std::endl;
+            return true;
+        }
+
+        block = _region->getBlock(cameraX, cameraY, cameraZ);
+        detected = (block != nullptr && block->isSolid());
+        if(detected)
+        {
+//            std::cout << "Z collision" << std::endl;
+            return true;
+        }
+    }
+    return false;
+
+}

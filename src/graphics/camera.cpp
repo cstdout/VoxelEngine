@@ -67,6 +67,30 @@ void Camera::onKeyboard(Camera_Movement direction, float deltaTime)
         Position += positionDelta;
     }
 }
+void Camera::onKeyboard(Camera_Movement direction, float deltaTime, Vec3& newPosition)
+{
+    float velocity = Speed * deltaTime;
+    if (direction == FORWARD)
+    {
+        Vec3::multiply(Front, velocity, positionDelta);
+        Vec3::add(Position, positionDelta, newPosition);
+    }
+    if (direction == BACKWARD)
+    {
+        Vec3::multiply(Front, velocity, positionDelta);
+        Vec3::subtract(Position, positionDelta, newPosition);
+    }
+    if (direction == LEFT)
+    {
+        Vec3::multiply(Right, velocity, positionDelta);
+        Vec3::subtract(Position, positionDelta, newPosition);
+    }
+    if (direction == RIGHT)
+    {
+        Vec3::multiply(Right, velocity, positionDelta);
+        Vec3::add(Position, positionDelta, newPosition);
+    }
+}
 void Camera::onMouse(float xoffset, float yoffset, bool constrainPitch)
 {
     xoffset *= Sensitivity;

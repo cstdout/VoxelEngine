@@ -22,6 +22,7 @@ public:
     static uint32_t getAreaInBlocks();
     static uint32_t getAreaInChunks();
 
+    Block* getBlock(uint32_t x, uint32_t y, uint32_t z) const;
     Block* getBlock(uint32_t x, uint32_t y, uint32_t z, Vec3Uint& chunkCoords) const;
     Block* rayCast(const Vec3& start,
                    const Vec3& dir,

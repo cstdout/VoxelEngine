@@ -66,6 +66,10 @@ protected:
         "       FragColor = texture(ourTexture, TexCoord);\n"
         "   }\n"
         "}\n";
+
+    Vec3 _cameraTestPosition;
+    bool _collisionDetected();
+    bool _isMoving = false;
 };
 
 #endif // REGIONRENDERER_H
