@@ -35,3 +35,7 @@ void Block::translate(float x, float y, float z)
     this->y += y;
     this->z += z;
 }
+bool Block::isSolid() const
+{
+    return (isNotAir() && getType() != WATER);
+}
